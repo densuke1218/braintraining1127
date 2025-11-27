@@ -301,7 +301,6 @@
       <button data-target="screen-memory">🧩 記憶</button>
       <button data-target="screen-stroop">🎨 色ことば</button>
       <button data-target="screen-tap25">🔢 1〜25</button>
-      <button data-target="screen-group">🧺 仲間分け</button>
       <button data-target="screen-flash">➕ フラッシュ</button>
       <button data-target="screen-arrows">🔼 矢印記憶</button>
     </nav>
@@ -347,12 +346,6 @@
             <button data-target="screen-tap25">このゲームで遊ぶ</button>
           </div>
           <div class="game-card">
-            <span class="tag">分類</span>
-            <h3>🧺 仲間分け</h3>
-            <p class="muted">ことばを左右のグループに素早く分類。</p>
-            <button data-target="screen-group">このゲームで遊ぶ</button>
-          </div>
-          <div class="game-card">
             <span class="tag">計算・記憶</span>
             <h3>➕ フラッシュ合計</h3>
             <p class="muted">次々出る数字の合計を覚える。<br>連続正解数を競います。</p>
@@ -392,11 +385,6 @@
             <h3 style="font-size:1.2rem;">🔢 1〜25</h3>
             <p id="no-ranking-tap25-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-tap25-home" class="ranking-list"></ol>
-          </div>
-          <div class="game-card">
-            <h3 style="font-size:1.2rem;">🧺 仲間分け</h3>
-            <p id="no-ranking-group-home" class="muted">まだ記録がありません。</p>
-            <ol id="ranking-group-home" class="ranking-list"></ol>
           </div>
           <div class="game-card">
             <h3 style="font-size:1.2rem;">➕ フラッシュ</h3>
@@ -580,42 +568,6 @@
         <ol id="ranking-tap25" class="ranking-list"></ol>
       </section>
 
-      <!-- 仲間分け -->
-      <section id="screen-group" class="screen">
-        <h2>🧺 仲間分けゲーム</h2>
-        <p class="muted">
-          出てくることばを、左「生き物」か右「食べ物」かに分けてください。<br />
-          正解数がスコアになります。好きなところで<strong>「終了・ランキング登録」</strong>して登録できます。<br />
-          やり直したいときは<strong>「リセット」</strong>を押してください。
-        </p>
-
-        <div class="game-card">
-          <div class="status-row">
-            <span>正解数：<span id="group-correct">0</span></span>
-            <span>問題数：<span id="group-total">0</span></span>
-          </div>
-          <div style="font-size:2rem; text-align:center; margin:10px 0;">
-            <span id="group-word">スタートを押してね</span>
-          </div>
-          <div class="button-row">
-            <button class="big-option-btn" id="group-left-btn">生き物</button>
-            <button class="big-option-btn" id="group-right-btn">食べ物</button>
-          </div>
-          <div class="button-row" style="margin-top:10px;">
-            <button id="group-start-btn">スタート</button>
-            <button id="group-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
-            <button id="group-reset-btn" class="btn-secondary btn-small">リセット</button>
-          </div>
-          <p id="group-message" class="muted"></p>
-        </div>
-
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
-
-        <h3>🧺 仲間分けランキング（多いほどスゴイ）</h3>
-        <p id="no-ranking-group" class="muted">まだ記録がありません。</p>
-        <ol id="ranking-group" class="ranking-list"></ol>
-      </section>
-
       <!-- フラッシュ合計（連続正解数で競う） -->
       <section id="screen-flash" class="screen">
         <h2>➕ フラッシュ合計ゲーム</h2>
@@ -774,7 +726,6 @@
         if (gameId === "memory") unit = " レベル";
         if (gameId === "stroop") unit = " 問";
         if (gameId === "tap25") unit = " 秒";
-        if (gameId === "group") unit = " 問";
         if (gameId === "flash") unit = " 回";
         if (gameId === "arrows") unit = " レベル";
 
@@ -808,7 +759,7 @@
         if (score <= 25) comment = "超高速クリア！";
         else if (score <= 40) comment = "なかなかの速さ！";
         else comment = "次はもう少し急いでみよう！";
-      } else if (["stroop", "group", "flash"].includes(gameId)) {
+      } else if (["stroop", "flash"].includes(gameId)) {
         if (score >= 20) comment = "集中力バッチリ！";
         else if (score >= 10) comment = "いい調子！";
         else comment = "少しずつ慣れていこう！";
@@ -1405,105 +1356,6 @@
       updateDisplay();
     })();
 
-    // ===== 仲間分け =====
-    (function setupGroup() {
-      const items = [
-        { word: "いぬ", cat: "生き物" },
-        { word: "ねこ", cat: "生き物" },
-        { word: "さかな", cat: "生き物" },
-        { word: "とり", cat: "生き物" },
-        { word: "ごりら", cat: "生き物" },
-        { word: "りんご", cat: "食べ物" },
-        { word: "ごはん", cat: "食べ物" },
-        { word: "パン", cat: "食べ物" },
-        { word: "ラーメン", cat: "食べ物" },
-        { word: "ケーキ", cat: "食べ物" }
-      ];
-
-      const wordEl = document.getElementById("group-word");
-      const correctEl = document.getElementById("group-correct");
-      const totalEl = document.getElementById("group-total");
-      const msg = document.getElementById("group-message");
-      const leftBtn = document.getElementById("group-left-btn");
-      const rightBtn = document.getElementById("group-right-btn");
-      const startBtn = document.getElementById("group-start-btn");
-      const endBtn = document.getElementById("group-end-btn");
-      const resetBtn = document.getElementById("group-reset-btn");
-
-      let playing = false;
-      let correct = 0;
-      let total = 0;
-      let currentItem = null;
-      let lastScore = null;
-
-      function updateDisplay() {
-        correctEl.textContent = correct;
-        totalEl.textContent = total;
-      }
-
-      function newQuestion() {
-        currentItem = items[Math.floor(Math.random() * items.length)];
-        wordEl.textContent = currentItem.word;
-        total++;
-        updateDisplay();
-      }
-
-      function resetAll() {
-        playing = false;
-        correct = 0;
-        total = 0;
-        lastScore = null;
-        updateDisplay();
-        wordEl.textContent = "スタートを押してね";
-        msg.textContent = "";
-      }
-
-      function handleAnswer(side) {
-        if (!playing) {
-          msg.textContent = "まずは「スタート」を押してね。";
-          return;
-        }
-        if (!currentItem) return;
-        if (side === currentItem.cat) {
-          correct++;
-          msg.textContent = "正解！";
-        } else {
-          msg.textContent = "おしい… もう一度チャレンジ！";
-        }
-        lastScore = correct;
-        newQuestion();
-      }
-
-      startBtn.addEventListener("click", () => {
-        playing = true;
-        correct = 0;
-        total = 0;
-        lastScore = null;
-        msg.textContent = "ことばをよく見て選んでね。";
-        updateDisplay();
-        newQuestion();
-      });
-
-      leftBtn.addEventListener("click", () => handleAnswer("生き物"));
-      rightBtn.addEventListener("click", () => handleAnswer("食べ物"));
-
-      endBtn.addEventListener("click", () => {
-        playing = false;
-        if (lastScore == null) {
-          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
-          resetAll();
-          return;
-        }
-        msg.textContent = `終了しました。正解数は ${lastScore} 問でした。`;
-        askNameAndSave("group", lastScore, true);
-        resetAll();
-      });
-
-      resetBtn.addEventListener("click", () => {
-        resetAll();
-      });
-    })();
-
     // ===== フラッシュ合計（連続正解） =====
     (function setupFlash() {
       const numberEl = document.getElementById("flash-number");
@@ -1790,7 +1642,7 @@
     loadRankings();
     const allGames = [
       "reaction", "calc", "memory", "stroop",
-      "tap25", "group", "flash", "arrows"
+      "tap25", "flash", "arrows"
     ];
     allGames.forEach(renderRanking);
   </script>
