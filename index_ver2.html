@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>脳トレパーティー</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 18px; /* 全体の文字を少し大きく */
+    }
+    body {
+      margin: 0;
+      background: #0f172a;
+      color: #f9fafb;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      max-width: 980px;
+      width: 100%;
+      padding: 16px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    header h1 {
+      margin: 0 0 4px;
+      font-size: 2rem;
+    }
+    header p {
+      margin: 0;
+      font-size: 1rem;
+      color: #cbd5f5;
+    }
+    .top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 1rem;
+      background: #1d4ed8;
+      color: #f9fafb;
+      transition: transform 0.07s ease, box-shadow 0.07s ease, background 0.15s;
+      box-shadow: 0 2px 4px rgba(15,23,42,0.4);
+    }
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(15,23,42,0.6);
+      background: #2563eb;
+    }
+    button:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(15,23,42,0.8);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+    }
+    .btn-secondary {
+      background: #64748b;
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: #94a3b8;
+    }
+
+    main {
+      background: rgba(15,23,42,0.85);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      border: 1px solid rgba(148,163,184,0.3);
+    }
+    .screen {
+      display: none;
+    }
+    .screen.active {
+      display: block;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.6rem;
+    }
+    h3 {
+      margin-top: 1.2rem;
+      font-size: 1.2rem;
+    }
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .game-card {
+      background: #020617;
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid rgba(148,163,184,0.3);
+    }
+    .game-card h3 {
+      margin-top: 0;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(59,130,246,0.15);
+      color: #bfdbfe;
+      margin-bottom: 4px;
+    }
+    .muted {
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+    .home-btn {
+      margin-top: 10px;
+      background: #0f766e;
+    }
+    .ranking-list {
+      padding-left: 20px;
+      font-size: 0.95rem;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    .ranking-list li {
+      margin-bottom: 2px;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 1rem;
+      box-sizing: border-box;
+      margin: 6px 0;
+    }
+    input:disabled {
+      opacity: 0.6;
+    }
+    .button-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .emphasis {
+      font-weight: 600;
+      color: #fbbf24;
+    }
+    /* Reaction game */
+    #reaction-box {
+      text-align: center;
+      padding: 16px;
+      border-radius: 12px;
+      background: #111827;
+      transition: background 0.2s;
+      font-size: 1.1rem;
+    }
+    #reaction-box.go {
+      background: #15803d;
+    }
+    #reaction-message {
+      margin-bottom: 8px;
+    }
+    #reaction-result {
+      margin-top: 8px;
+      font-size: 1.1rem;
+    }
+    /* Memory game */
+    #memory-board {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 8px 0 10px;
+    }
+    .memory-tile {
+      height: 90px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: transform 0.08s, opacity 0.08s, box-shadow 0.08s;
+    }
+    .memory-tile.active {
+      transform: scale(1.05);
+      opacity: 1;
+      box-shadow: 0 0 12px rgba(250,250,250,0.7);
+    }
+    .memory-tile[data-index="0"] { background: #ef4444; }
+    .memory-tile[data-index="1"] { background: #22c55e; }
+    .memory-tile[data-index="2"] { background: #3b82f6; }
+    .memory-tile[data-index="3"] { background: #eab308; }
+    #memory-level {
+      font-weight: 600;
+    }
+
+    /* 共通：大きめボタン用 */
+    .big-option-btn {
+      flex: 1;
+      min-width: 120px;
+      font-size: 1.1rem;
+      padding: 12px 10px;
+    }
+
+    /* 1〜25用ボード */
+    #tap25-board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .tap25-cell {
+      height: 70px;
+      font-size: 1.3rem;
+      border-radius: 10px;
+      border: none;
+      background: #1f2937;
+      color: #e5e7eb;
+      cursor: pointer;
+      transition: background 0.1s, transform 0.1s;
+    }
+    .tap25-cell.done {
+      background: #16a34a;
+      transform: scale(0.95);
+    }
+
+    /* ストループ文字 */
+    #stroop-word {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    /* 矢印ボタン */
+    .arrow-btn {
+      font-size: 1.6rem;
+      padding: 12px 14px;
+      flex: 1;
+      min-width: 90px;
+    }
+
+    @media (max-width: 640px) {
+      main { padding: 12px; }
+      header h1 { font-size: 1.7rem; }
+      :root { font-size: 17px; }
+      .tap25-cell { height: 60px; font-size: 1.15rem; }
+      .memory-tile { height: 80px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>脳トレパーティー 🧠🎉</h1>
+      <p>高齢者・子ども向け。大きな文字で、反射・計算・記憶・判断をまるごとトレーニング！</p>
+    </header>
+
+    <nav class="top-nav">
+      <button data-target="screen-home">🏠 ホーム</button>
+      <button data-target="screen-reaction">⚡ 反射</button>
+      <button data-target="screen-calc">➗ 計算</button>
+      <button data-target="screen-memory">🧩 記憶</button>
+      <button data-target="screen-stroop">🎨 色ことば</button>
+      <button data-target="screen-tap25">🔢 1〜25</button>
+      <button data-target="screen-group">🧺 仲間分け</button>
+      <button data-target="screen-reverse">🔁 逆順数字</button>
+      <button data-target="screen-nback">🔁 1つ前</button>
+      <button data-target="screen-flash">➕ フラッシュ</button>
+      <button data-target="screen-arrows">🔼 矢印記憶</button>
+      <button data-target="screen-words">✏️ ことば</button>
+    </nav>
+
+    <main>
+      <!-- ホーム画面 -->
+      <section id="screen-home" class="screen active">
+        <h2>ゲームをえらんでスタート！</h2>
+        <p class="muted">
+          それぞれのゲームの結果はブラウザ内に保存されます。<br />
+          何回かプレイして<strong>気に入った結果が出たら、各ゲーム画面の「終了・リセット」でランキングに登録</strong>できます。
+        </p>
+        <div class="game-grid">
+          <div class="game-card">
+            <span class="tag">反射</span>
+            <h3>⚡ 反射神経ゲーム</h3>
+            <p class="muted">「今だ！」の瞬間にボタンを押すゲーム。</p>
+            <button data-target="screen-reaction">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">計算</span>
+            <h3>➗ 計算チャレンジ</h3>
+            <p class="muted">30秒で何問とけるか？</p>
+            <button data-target="screen-calc">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">記憶</span>
+            <h3>🧩 色マス記憶</h3>
+            <p class="muted">光るマスの順番を覚えてタップ。</p>
+            <button data-target="screen-memory">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">注意・判断</span>
+            <h3>🎨 色ことば</h3>
+            <p class="muted">文字の「いろ」と「意味」がずれているストループ課題。</p>
+            <button data-target="screen-stroop">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">集中</span>
+            <h3>🔢 数字タップ 1〜25</h3>
+            <p class="muted">1から25まで順番にタップ。タイムアタック。</p>
+            <button data-target="screen-tap25">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">分類</span>
+            <h3>🧺 仲間分け</h3>
+            <p class="muted">ことばを左右のグループに素早く分類。</p>
+            <button data-target="screen-group">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">ワーキングメモリ</span>
+            <h3>🔁 数字逆順</h3>
+            <p class="muted">出てきた数字を逆から答えるゲーム。</p>
+            <button data-target="screen-reverse">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">注意</span>
+            <h3>🔁 1つ前ゲーム</h3>
+            <p class="muted">1つ前と同じかどうかを判断。</p>
+            <button data-target="screen-nback">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">計算・記憶</span>
+            <h3>➕ フラッシュ合計</h3>
+            <p class="muted">次々出る数字の合計を覚えておくゲーム。</p>
+            <button data-target="screen-flash">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">記憶・順序</span>
+            <h3>🔼 矢印記憶</h3>
+            <p class="muted">矢印の順番を覚えて再現。</p>
+            <button data-target="screen-arrows">このゲームで遊ぶ</button>
+          </div>
+          <div class="game-card">
+            <span class="tag">言葉</span>
+            <h3>✏️ ことば並べ替え</h3>
+            <p class="muted">バラバラの文字を正しい単語に。</p>
+            <button data-target="screen-words">このゲームで遊ぶ</button>
+          </div>
+        </div>
+
+        <h3 style="margin-top:16px;">みんなのランキング（ダイジェスト）</h3>
+        <div class="game-grid">
+          <!-- 各ゲームのランキング簡易表示 -->
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">⚡ 反射</h3>
+            <p id="no-ranking-reaction-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-reaction-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">➗ 計算</h3>
+            <p id="no-ranking-calc-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-calc-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">🧩 記憶</h3>
+            <p id="no-ranking-memory-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-memory-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">🎨 色ことば</h3>
+            <p id="no-ranking-stroop-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-stroop-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">🔢 1〜25</h3>
+            <p id="no-ranking-tap25-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-tap25-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">🧺 仲間分け</h3>
+            <p id="no-ranking-group-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-group-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">🔁 逆順数字</h3>
+            <p id="no-ranking-reverse-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-reverse-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">🔁 1つ前</h3>
+            <p id="no-ranking-nback-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-nback-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">➕ フラッシュ</h3>
+            <p id="no-ranking-flash-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-flash-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">🔼 矢印</h3>
+            <p id="no-ranking-arrows-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-arrows-home" class="ranking-list"></ol>
+          </div>
+          <div class="game-card">
+            <h3 style="font-size:1.1rem;">✏️ ことば</h3>
+            <p id="no-ranking-words-home" class="muted">まだ記録がありません。</p>
+            <ol id="ranking-words-home" class="ranking-list"></ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- 反射神経ゲーム -->
+      <section id="screen-reaction" class="screen">
+        <h2>⚡ 反射神経ゲーム</h2>
+        <p class="muted">
+          「スタート」で少し待つと、画面が<span class="emphasis">緑色</span>になります。<br />
+          緑になったら、できるだけ早く「今だ！」ボタンを押してください。<br />
+          納得いく記録が出たら<strong>「終了・リセット」</strong>でランキング登録します。
+        </p>
+
+        <div class="game-card" id="reaction-box">
+          <p id="reaction-message">準備OK？「スタート」を押してね。</p>
+          <div class="button-row" style="justify-content:center;">
+            <button id="reaction-start-btn">スタート</button>
+            <button id="reaction-click-btn" disabled>今だ！</button>
+            <button id="reaction-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="reaction-result"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>⚡ 反射神経ランキング（小さいほどスゴイ）</h3>
+        <p id="no-ranking-reaction" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-reaction" class="ranking-list"></ol>
+      </section>
+
+      <!-- 計算チャレンジ -->
+      <section id="screen-calc" class="screen">
+        <h2>➗ 計算チャレンジ（30秒）</h2>
+        <p class="muted">
+          「スタート」で30秒のカウントダウンが始まります。<br />
+          足し算・引き算をできるだけたくさん解きましょう。<br />
+          途中でやめたいときも<strong>「終了・リセット」</strong>でその回を終わらせて、ランキング登録できます。
+        </p>
+
+        <div class="game-card">
+          <div class="status-row">
+            <span>残り時間：<span id="calc-time">30</span> 秒</span>
+            <span>正解数：<span id="calc-score">0</span></span>
+          </div>
+
+          <div id="calc-question-area" style="font-size:1.6rem; margin: 8px 0;">
+            <span id="calc-question">「スタート」を押してゲーム開始！</span>
+          </div>
+
+          <input id="calc-answer" type="number" placeholder="ここに答えを入力（EnterでもOK）" disabled />
+          <div class="button-row">
+            <button id="calc-start-btn">スタート</button>
+            <button id="calc-submit-btn" disabled>回答</button>
+            <button id="calc-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="calc-message" class="muted"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>➗ 計算ランキング（多いほどスゴイ）</h3>
+        <p id="no-ranking-calc" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-calc" class="ranking-list"></ol>
+      </section>
+
+      <!-- 記憶力ゲーム（色マス） -->
+      <section id="screen-memory" class="screen">
+        <h2>🧩 記憶力ゲーム（色マス）</h2>
+        <p class="muted">
+          「スタート」を押すと、色のマスが順番に光ります。<br />
+          光った順番どおりにマスをタップしてください。<br />
+          何度かチャレンジして、満足したレベルになったら<strong>「終了・リセット」</strong>でランキング登録します。
+        </p>
+
+        <div class="game-card">
+          <div id="memory-board">
+            <button class="memory-tile" data-index="0"></button>
+            <button class="memory-tile" data-index="1"></button>
+            <button class="memory-tile" data-index="2"></button>
+            <button class="memory-tile" data-index="3"></button>
+          </div>
+          <p>到達レベル：<span id="memory-level">0</span></p>
+          <div class="button-row">
+            <button id="memory-start-btn">スタート</button>
+            <button id="memory-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="memory-message" class="muted">まずは「スタート」を押してね。</p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>🧩 記憶力ランキング（レベルが高いほどスゴイ）</h3>
+        <p id="no-ranking-memory" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-memory" class="ranking-list"></ol>
+      </section>
+
+      <!-- ストループ色ことば -->
+      <section id="screen-stroop" class="screen">
+        <h2>🎨 色ことばゲーム</h2>
+        <p class="muted">
+          表示される「ことば」の<strong>インクの色</strong>を答えるゲームです。<br />
+          例：「赤」という文字が青色で表示 → 正解は「青」。<br />
+          正解数がスコアになります。気に入った結果が出たら<strong>「終了・リセット」</strong>で登録してください。
+        </p>
+
+        <div class="game-card">
+          <div class="status-row">
+            <span>正解数：<span id="stroop-correct">0</span></span>
+            <span>問題数：<span id="stroop-total">0</span></span>
+          </div>
+          <div id="stroop-word">スタートを押してね</div>
+          <div class="button-row">
+            <button class="big-option-btn" data-stroop-answer="赤">赤</button>
+            <button class="big-option-btn" data-stroop-answer="青">青</button>
+            <button class="big-option-btn" data-stroop-answer="緑">緑</button>
+            <button class="big-option-btn" data-stroop-answer="黄">黄</button>
+          </div>
+          <div class="button-row" style="margin-top:10px;">
+            <button id="stroop-start-btn">スタート</button>
+            <button id="stroop-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="stroop-message" class="muted"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>🎨 色ことばランキング（多いほどスゴイ）</h3>
+        <p id="no-ranking-stroop" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-stroop" class="ranking-list"></ol>
+      </section>
+
+      <!-- 数字タップ 1〜25 -->
+      <section id="screen-tap25" class="screen">
+        <h2>🔢 数字タップ 1〜25</h2>
+        <p class="muted">
+          「スタート」で1〜25の数字がバラバラに並びます。<br />
+          1→2→3…と順番にタップしていき、25まで押し切るタイムを競います。<br />
+          クリア後に<strong>「終了・リセット」</strong>でタイムをランキング登録できます。
+        </p>
+
+        <div class="game-card">
+          <div class="status-row">
+            <span>次の数字：<span id="tap25-next">1</span></span>
+            <span>経過時間：<span id="tap25-time">0.0</span> 秒</span>
+          </div>
+          <div id="tap25-board"></div>
+          <div class="button-row" style="margin-top:10px;">
+            <button id="tap25-start-btn">スタート</button>
+            <button id="tap25-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="tap25-message" class="muted"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>🔢 1〜25 ランキング（小さいほどスゴイ）</h3>
+        <p id="no-ranking-tap25" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-tap25" class="ranking-list"></ol>
+      </section>
+
+      <!-- 仲間分け -->
+      <section id="screen-group" class="screen">
+        <h2>🧺 仲間分けゲーム</h2>
+        <p class="muted">
+          出てくることばを、左「生き物」か右「食べ物」かに分けてください。<br />
+          正解数がスコアになります。好きなところで<strong>「終了・リセット」</strong>して登録できます。
+        </p>
+
+        <div class="game-card">
+          <div class="status-row">
+            <span>正解数：<span id="group-correct">0</span></span>
+            <span>問題数：<span id="group-total">0</span></span>
+          </div>
+          <div style="font-size:1.8rem; text-align:center; margin:10px 0;">
+            <span id="group-word">スタートを押してね</span>
+          </div>
+          <div class="button-row">
+            <button class="big-option-btn" id="group-left-btn">生き物</button>
+            <button class="big-option-btn" id="group-right-btn">食べ物</button>
+          </div>
+          <div class="button-row" style="margin-top:10px;">
+            <button id="group-start-btn">スタート</button>
+            <button id="group-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="group-message" class="muted"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>🧺 仲間分けランキング（多いほどスゴイ）</h3>
+        <p id="no-ranking-group" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-group" class="ranking-list"></ol>
+      </section>
+
+      <!-- 数字逆順 -->
+      <section id="screen-reverse" class="screen">
+        <h2>🔁 数字逆順ゲーム</h2>
+        <p class="muted">
+          数字が1列表示されます。そのあと、<strong>逆の順番</strong>で数字を入力してください。<br />
+          1問正解するごとに桁数が1つ増えていきます。<br />
+          まちがえたときの「到達レベル」がスコアです。何回か挑戦して、<strong>満足したら「終了・リセット」</strong>で登録しましょう。
+        </p>
+
+        <div class="game-card">
+          <div class="status-row">
+            <span>現在レベル：<span id="reverse-level">1</span></span>
+            <span>最高レベル：<span id="reverse-best">0</span></span>
+          </div>
+          <div style="font-size:1.8rem; text-align:center; margin:10px 0;">
+            問題：<span id="reverse-seq">スタートを押してね</span>
+          </div>
+          <input id="reverse-answer" type="text" placeholder="ここに逆順で数字を入力" disabled />
+          <div class="button-row">
+            <button id="reverse-start-btn">スタート</button>
+            <button id="reverse-submit-btn" disabled>回答</button>
+            <button id="reverse-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="reverse-message" class="muted"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>🔁 数字逆順ランキング（レベルが高いほどスゴイ）</h3>
+        <p id="no-ranking-reverse" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-reverse" class="ranking-list"></ol>
+      </section>
+
+      <!-- 1つ前ゲーム -->
+      <section id="screen-nback" class="screen">
+        <h2>🔁 1つ前ゲーム</h2>
+        <p class="muted">
+          A〜Dの文字が順番に表示されます。<br />
+          今出ている文字が<strong>1つ前と同じときだけ「同じ！」ボタン</strong>を押してください。<br />
+          正解した回数がスコアです。「終了・リセット」で結果をまとめて登録できます。
+        </p>
+
+        <div class="game-card">
+          <div class="status-row">
+            <span>正解数：<span id="nback-correct">0</span></span>
+            <span>ミス：<span id="nback-miss">0</span></span>
+          </div>
+          <div style="font-size:2.2rem; text-align:center; margin:10px 0;">
+            <span id="nback-letter">スタートを押してね</span>
+          </div>
+          <div class="button-row" style="justify-content:center;">
+            <button id="nback-hit-btn" class="big-option-btn">同じ！</button>
+          </div>
+          <div class="button-row" style="margin-top:10px;">
+            <button id="nback-start-btn">スタート</button>
+            <button id="nback-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="nback-message" class="muted"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>🔁 1つ前ゲーム ランキング（多いほどスゴイ）</h3>
+        <p id="no-ranking-nback" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-nback" class="ranking-list"></ol>
+      </section>
+
+      <!-- フラッシュ合計 -->
+      <section id="screen-flash" class="screen">
+        <h2>➕ フラッシュ合計ゲーム</h2>
+        <p class="muted">
+          1ケタの数字が次々に表示されます。すべての数字の<strong>合計</strong>を覚えておき、最後に答えましょう。<br />
+          1ラウンド終わるたびに新しいラウンドが始まります。正解した回数がスコアです。<br />
+          いいところまでいったら<strong>「終了・リセット」</strong>で登録してください。
+        </p>
+
+        <div class="game-card">
+          <div class="status-row">
+            <span>正解数：<span id="flash-correct">0</span></span>
+            <span>ラウンド数：<span id="flash-round">0</span></span>
+          </div>
+          <div style="font-size:2.2rem; text-align:center; margin:10px 0;">
+            <span id="flash-number">スタートを押してね</span>
+          </div>
+          <input id="flash-answer" type="number" placeholder="合計を入力" disabled />
+          <div class="button-row">
+            <button id="flash-start-btn">スタート</button>
+            <button id="flash-submit-btn" disabled>回答</button>
+            <button id="flash-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="flash-message" class="muted"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>➕ フラッシュ合計 ランキング（多いほどスゴイ）</h3>
+        <p id="no-ranking-flash" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-flash" class="ranking-list"></ol>
+      </section>
+
+      <!-- 矢印記憶 -->
+      <section id="screen-arrows" class="screen">
+        <h2>🔼 矢印記憶ゲーム</h2>
+        <p class="muted">
+          矢印（↑→↓←）が順番に表示されます。<br />
+          よく覚えて、同じ順番でボタンを押してください。<br />
+          まちがえたときのレベルがスコアです。満足したら<strong>「終了・リセット」</strong>で登録できます。
+        </p>
+
+        <div class="game-card">
+          <div class="status-row">
+            <span>現在レベル：<span id="arrows-level">1</span></span>
+            <span>最高レベル：<span id="arrows-best">0</span></span>
+          </div>
+          <div style="font-size:2rem; text-align:center; margin:10px 0;">
+            <span id="arrows-seq">スタートを押してね</span>
+          </div>
+          <div class="button-row">
+            <button class="arrow-btn" data-arrow="↑">↑</button>
+            <button class="arrow-btn" data-arrow="→">→</button>
+            <button class="arrow-btn" data-arrow="↓">↓</button>
+            <button class="arrow-btn" data-arrow="←">←</button>
+          </div>
+          <div class="button-row" style="margin-top:10px;">
+            <button id="arrows-start-btn">スタート</button>
+            <button id="arrows-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="arrows-message" class="muted"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>🔼 矢印記憶 ランキング（レベルが高いほどスゴイ）</h3>
+        <p id="no-ranking-arrows" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-arrows" class="ranking-list"></ol>
+      </section>
+
+      <!-- ことば並べ替え -->
+      <section id="screen-words" class="screen">
+        <h2>✏️ ことば並べ替えゲーム</h2>
+        <p class="muted">
+          ひらがなの順番がバラバラになったことばが出ます。<br />
+          正しいことばになるように並べ替えて入力してください。<br />
+          正解した回数がスコアです。「終了・リセット」で登録します。
+        </p>
+
+        <div class="game-card">
+          <div class="status-row">
+            <span>正解数：<span id="words-correct">0</span></span>
+            <span>問題数：<span id="words-total">0</span></span>
+          </div>
+          <div style="font-size:1.8rem; text-align:center; margin:10px 0;">
+            <span id="words-scrambled">スタートを押してね</span>
+          </div>
+          <input id="words-answer" type="text" placeholder="正しいことばを入力" disabled />
+          <div class="button-row">
+            <button id="words-start-btn">スタート</button>
+            <button id="words-submit-btn" disabled>回答</button>
+            <button id="words-end-btn" class="btn-secondary">終了・リセット</button>
+          </div>
+          <p id="words-message" class="muted"></p>
+        </div>
+
+        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+
+        <h3>✏️ ことば並べ替え ランキング（多いほどスゴイ）</h3>
+        <p id="no-ranking-words" class="muted">まだ記録がありません。</p>
+        <ol id="ranking-words" class="ranking-list"></ol>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // ===== 画面切り替え =====
+    const screens = document.querySelectorAll(".screen");
+    function showScreen(id) {
+      screens.forEach((s) => s.classList.remove("active"));
+      const target = document.getElementById(id);
+      if (target) target.classList.add("active");
+    }
+    document.querySelectorAll("[data-target]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-target");
+        // 計算ゲームなどのタイマーを安全に止める（メッセージは出さない）
+        if (window.calcForceStop) window.calcForceStop();
+        if (window.nbackForceStop) window.nbackForceStop();
+        if (window.flashForceStop) window.flashForceStop();
+        if (window.tap25ForceStop) window.tap25ForceStop();
+        showScreen(id);
+      });
+    });
+
+    // ===== ランキング管理 =====
+    const RANKING_KEY = "brainTrainerRankings_v3";
+    let rankings = {};
+
+    function loadRankings() {
+      try {
+        const saved = localStorage.getItem(RANKING_KEY);
+        if (saved) {
+          rankings = JSON.parse(saved);
+        }
+      } catch (e) {
+        console.warn("ランキング読み込み失敗:", e);
+        rankings = {};
+      }
+    }
+
+    function saveRankings() {
+      try {
+        localStorage.setItem(RANKING_KEY, JSON.stringify(rankings));
+      } catch (e) {
+        console.warn("ランキング保存失敗:", e);
+      }
+    }
+
+    function addScore(gameId, name, score, higherIsBetter) {
+      if (!rankings[gameId]) rankings[gameId] = [];
+      rankings[gameId].push({ name, score });
+
+      rankings[gameId].sort((a, b) => {
+        return higherIsBetter ? b.score - a.score : a.score - b.score;
+      });
+
+      rankings[gameId] = rankings[gameId].slice(0, 10);
+      saveRankings();
+      renderRanking(gameId);
+    }
+
+    function renderRankingList(gameId, suffix) {
+      const list = document.getElementById(`ranking-${gameId}${suffix}`);
+      const noMsg = document.getElementById(`no-ranking-${gameId}${suffix}`);
+      if (!list) return;
+      list.innerHTML = "";
+
+      const data = rankings[gameId] || [];
+      if (!data.length) {
+        if (noMsg) noMsg.style.display = "block";
+        return;
+      }
+      if (noMsg) noMsg.style.display = "none";
+
+      data.forEach((entry, index) => {
+        const li = document.createElement("li");
+        let medal = "";
+        if (index === 0) medal = "👑 ";
+        else if (index === 1) medal = "🥈 ";
+        else if (index === 2) medal = "🥉 ";
+
+        let unit = "";
+        if (gameId === "reaction") unit = " ms";
+        if (gameId === "calc") unit = " 問";
+        if (gameId === "memory") unit = " レベル";
+        if (gameId === "stroop") unit = " 問";
+        if (gameId === "tap25") unit = " 秒";
+        if (gameId === "group") unit = " 問";
+        if (gameId === "reverse") unit = " レベル";
+        if (gameId === "nback") unit = " 回";
+        if (gameId === "flash") unit = " 回";
+        if (gameId === "arrows") unit = " レベル";
+        if (gameId === "words") unit = " 問";
+
+        li.textContent = `${medal}${index + 1}位: ${entry.name} - ${entry.score}${unit}`;
+        list.appendChild(li);
+      });
+    }
+
+    function renderRanking(gameId) {
+      renderRankingList(gameId, "");
+      renderRankingList(gameId, "-home");
+    }
+
+    function askNameAndSave(gameId, score, higherIsBetter) {
+      if (score == null || Number.isNaN(score)) return;
+
+      let comment = "";
+      if (gameId === "reaction") {
+        if (score < 150) comment = "神速！人間離れした反射神経！";
+        else if (score < 250) comment = "かなり速い！ナイス集中！";
+        else comment = "まずはここから。もう一回やってみよう！";
+      } else if (gameId === "calc") {
+        if (score >= 20) comment = "天才級の計算力！";
+        else if (score >= 10) comment = "いいペース！その調子！";
+        else comment = "ウォーミングアップはここから！";
+      } else if (gameId === "memory" || gameId === "reverse" || gameId === "arrows") {
+        if (score >= 10) comment = "すごい記憶力！";
+        else if (score >= 5) comment = "集中できてる！";
+        else comment = "続ければもっと伸びるよ！";
+      } else if (gameId === "tap25") {
+        if (score <= 25) comment = "超高速クリア！";
+        else if (score <= 40) comment = "なかなかの速さ！";
+        else comment = "次はもう少し急いでみよう！";
+      } else if (["stroop", "group", "nback", "flash", "words"].includes(gameId)) {
+        if (score >= 20) comment = "集中力バッチリ！";
+        else if (score >= 10) comment = "いい調子！";
+        else comment = "少しずつ慣れていこう！";
+      }
+
+      if (comment) alert(comment);
+
+      const name = prompt("ランキングに登録する名前を入力してね（キャンセルでスキップ）");
+      if (name && name.trim()) {
+        addScore(gameId, name.trim(), score, higherIsBetter);
+        alert("ランキングに登録したよ！");
+      }
+    }
+
+    // ===== 反射神経ゲーム =====
+    (function setupReactionGame() {
+      const box = document.getElementById("reaction-box");
+      const message = document.getElementById("reaction-message");
+      const result = document.getElementById("reaction-result");
+      const startBtn = document.getElementById("reaction-start-btn");
+      const clickBtn = document.getElementById("reaction-click-btn");
+      const endBtn = document.getElementById("reaction-end-btn");
+
+      let state = "idle"; // idle | waiting | go
+      let timeoutId = null;
+      let startTime = 0;
+      let lastScore = null;
+
+      function resetForNext() {
+        state = "idle";
+        startBtn.disabled = false;
+        clickBtn.disabled = true;
+        box.classList.remove("go");
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+
+      startBtn.addEventListener("click", () => {
+        resetForNext();
+        state = "waiting";
+        startBtn.disabled = true;
+        clickBtn.disabled = false;
+        result.textContent = "";
+        message.textContent = "色が変わるまでじっと待って… フライング禁止！";
+
+        const delay = 1500 + Math.random() * 2000;
+        timeoutId = setTimeout(() => {
+          state = "go";
+          box.classList.add("go");
+          message.textContent = "今だ！ボタンを押して！";
+          startTime = performance.now();
+        }, delay);
+      });
+
+      clickBtn.addEventListener("click", () => {
+        if (state === "waiting") {
+          message.textContent = "フライング！もう一度やってみよう。";
+          result.textContent = "";
+          resetForNext();
+          return;
+        }
+        if (state === "go") {
+          const diff = Math.round(performance.now() - startTime);
+          lastScore = diff;
+          result.textContent = `今回の反応時間：${diff} ms`;
+          message.textContent = "納得いく記録が出たら「終了・リセット」でランキング登録してね。";
+          resetForNext();
+        }
+      });
+
+      endBtn.addEventListener("click", () => {
+        resetForNext();
+        if (lastScore == null) {
+          alert("まだ登録できる記録がありません。まずはプレイしてみよう！");
+          message.textContent = "準備OK？「スタート」を押してね。";
+          result.textContent = "";
+          return;
+        }
+        askNameAndSave("reaction", lastScore, false);
+        lastScore = null;
+        message.textContent = "準備OK？「スタート」を押してね。";
+        result.textContent = "";
+      });
+    })();
+
+    // ===== 計算チャレンジ =====
+    (function setupCalcGame() {
+      const timeEl = document.getElementById("calc-time");
+      const scoreEl = document.getElementById("calc-score");
+      const questionEl = document.getElementById("calc-question");
+      const answerInput = document.getElementById("calc-answer");
+      const startBtn = document.getElementById("calc-start-btn");
+      const submitBtn = document.getElementById("calc-submit-btn");
+      const endBtn = document.getElementById("calc-end-btn");
+      const msg = document.getElementById("calc-message");
+
+      let remaining = 30;
+      let score = 0;
+      let currentAnswer = null;
+      let timerId = null;
+      let playing = false;
+      let lastScore = null;
+
+      function updateDisplay() {
+        timeEl.textContent = remaining;
+        scoreEl.textContent = score;
+      }
+
+      function resetAll() {
+        playing = false;
+        if (timerId) clearInterval(timerId);
+        timerId = null;
+        remaining = 30;
+        score = 0;
+        lastScore = null;
+        updateDisplay();
+        questionEl.textContent = "「スタート」を押してゲーム開始！";
+        answerInput.value = "";
+        answerInput.disabled = true;
+        submitBtn.disabled = true;
+        startBtn.disabled = false;
+        msg.textContent = "";
+      }
+
+      function makeQuestion() {
+        const a = Math.floor(Math.random() * 20) + 1;
+        const b = Math.floor(Math.random() * 20) + 1;
+        const usePlus = Math.random() < 0.5;
+        let text, ans;
+        if (usePlus) {
+          text = `${a} + ${b} = ?`;
+          ans = a + b;
+        } else {
+          const bigger = Math.max(a, b);
+          const smaller = Math.min(a, b);
+          text = `${bigger} - ${smaller} = ?`;
+          ans = bigger - smaller;
+        }
+        questionEl.textContent = text;
+        currentAnswer = ans;
+      }
+
+      function finishRun(reason) {
+        playing = false;
+        if (timerId) clearInterval(timerId);
+        timerId = null;
+        answerInput.disabled = true;
+        submitBtn.disabled = true;
+        startBtn.disabled = false;
+        lastScore = score;
+        if (reason === "time") {
+          msg.textContent = `時間切れ！正解数は ${score} 問でした。気に入った結果なら「終了・リセット」で登録できます。`;
+        } else if (reason === "manual") {
+          msg.textContent = `手動で終了しました。正解数は ${score} 問でした。`;
+        }
+      }
+
+      function handleAnswer() {
+        if (!playing) return;
+        const val = parseInt(answerInput.value, 10);
+        if (Number.isNaN(val)) {
+          msg.textContent = "数字で答えを入力してね。";
+          return;
+        }
+        if (val === currentAnswer) {
+          score++;
+          msg.textContent = "正解！いいペース！";
+        } else {
+          msg.textContent = `おしい… 正解は ${currentAnswer} でした。`;
+        }
+        answerInput.value = "";
+        updateDisplay();
+        makeQuestion();
+      }
+
+      startBtn.addEventListener("click", () => {
+        playing = true;
+        remaining = 30;
+        score = 0;
+        updateDisplay();
+        makeQuestion();
+        answerInput.disabled = false;
+        submitBtn.disabled = false;
+        startBtn.disabled = true;
+        msg.textContent = "集中していこう！";
+        answerInput.value = "";
+        answerInput.focus();
+
+        if (timerId) clearInterval(timerId);
+        timerId = setInterval(() => {
+          remaining--;
+          updateDisplay();
+          if (remaining <= 0) {
+            finishRun("time");
+          }
+        }, 1000);
+      });
+
+      submitBtn.addEventListener("click", handleAnswer);
+      answerInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleAnswer();
+      });
+
+      endBtn.addEventListener("click", () => {
+        if (playing) {
+          finishRun("manual");
+        }
+        if (lastScore == null) {
+          alert("まだ登録できる結果がありません。まずはゲームをスタートしてね。");
+          resetAll();
+          return;
+        }
+        askNameAndSave("calc", lastScore, true);
+        resetAll();
+      });
+
+      // 画面遷移時に強制リセット（メッセージなし）
+      window.calcForceStop = function () {
+        if (timerId) clearInterval(timerId);
+        timerId = null;
+        playing = false;
+        remaining = 30;
+        score = 0;
+        lastScore = null;
+        updateDisplay();
+        answerInput.disabled = true;
+        submitBtn.disabled = true;
+        startBtn.disabled = false;
+        msg.textContent = "";
+        questionEl.textContent = "「スタート」を押してゲーム開始！";
+      };
+    })();
+
+    // ===== 記憶力ゲーム（色マス） =====
+    (function setupMemoryGame() {
+      const tiles = Array.from(document.querySelectorAll(".memory-tile"));
+      const levelEl = document.getElementById("memory-level");
+      const startBtn = document.getElementById("memory-start-btn");
+      const endBtn = document.getElementById("memory-end-btn");
+      const msg = document.getElementById("memory-message");
+
+      let sequence = [];
+      let userIndex = 0;
+      let level = 0;
+      let busyShowing = false;
+      let playing = false;
+      let showTimers = [];
+      let lastScore = null;
+
+      function clearTimers() {
+        showTimers.forEach((id) => clearTimeout(id));
+        showTimers = [];
+      }
+
+      function setLevelDisplay() {
+        levelEl.textContent = level;
+      }
+
+      function flashTile(index, delay) {
+        const tile = tiles[index];
+        const t1 = setTimeout(() => {
+          tile.classList.add("active");
+        }, delay);
+        const t2 = setTimeout(() => {
+          tile.classList.remove("active");
+        }, delay + 400);
+        showTimers.push(t1, t2);
+      }
+
+      function showSequence() {
+        busyShowing = true;
+        msg.textContent = "よく見て覚えてね…";
+        clearTimers();
+        sequence.forEach((idx, i) => {
+          flashTile(idx, i * 600);
+        });
+        const total = sequence.length * 600;
+        const endTimer = setTimeout(() => {
+          busyShowing = false;
+          msg.textContent = "今度は同じ順番でタップしてね！";
+        }, total + 500);
+        showTimers.push(endTimer);
+      }
+
+      function nextRound() {
+        level++;
+        setLevelDisplay();
+        userIndex = 0;
+        sequence.push(Math.floor(Math.random() * 4));
+        showSequence();
+      }
+
+      function gameOver() {
+        playing = false;
+        clearTimers();
+        tiles.forEach((t) => t.classList.remove("active"));
+        lastScore = level;
+        msg.textContent = `ゲームオーバー… 到達レベルは ${level} でした。満足したら「終了・リセット」で登録できます。`;
+        startBtn.textContent = "もう一回！";
+      }
+
+      function resetAll() {
+        sequence = [];
+        userIndex = 0;
+        level = 0;
+        setLevelDisplay();
+        playing = false;
+        busyShowing = false;
+        clearTimers();
+        tiles.forEach((t) => t.classList.remove("active"));
+        msg.textContent = "まずは「スタート」を押してね。";
+        startBtn.textContent = "スタート";
+        lastScore = null;
+      }
+
+      function startGame() {
+        resetAll();
+        playing = true;
+        msg.textContent = "さあ、スタート！";
+        startBtn.textContent = "リスタート";
+        nextRound();
+      }
+
+      startBtn.addEventListener("click", () => {
+        if (busyShowing) return;
+        startGame();
+      });
+
+      endBtn.addEventListener("click", () => {
+        if (playing) {
+          playing = false;
+          clearTimers();
+          tiles.forEach((t) => t.classList.remove("active"));
+          msg.textContent = `手動で終了しました。到達レベルは ${level} でした。`;
+          lastScore = level;
+        }
+        if (!lastScore || lastScore <= 0) {
+          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
+          resetAll();
+          return;
+        }
+        askNameAndSave("memory", lastScore, true);
+        resetAll();
+      });
+
+      tiles.forEach((tile) => {
+        tile.addEventListener("click", () => {
+          if (!playing || busyShowing) return;
+          const idx = parseInt(tile.getAttribute("data-index"), 10);
+          const expected = sequence[userIndex];
+          if (idx === expected) {
+            tile.classList.add("active");
+            setTimeout(() => tile.classList.remove("active"), 200);
+            userIndex++;
+            if (userIndex >= sequence.length) {
+              msg.textContent = "すごい！次のレベルへ！";
+              setTimeout(() => {
+                nextRound();
+              }, 700);
+            }
+          } else {
+            gameOver();
+          }
+        });
+      });
+    })();
+
+    // ===== ストループ色ことば =====
+    (function setupStroop() {
+      const colors = ["赤", "青", "緑", "黄"];
+      const colorValues = {
+        "赤": "#ef4444",
+        "青": "#3b82f6",
+        "緑": "#22c55e",
+        "黄": "#eab308"
+      };
+
+      const wordEl = document.getElementById("stroop-word");
+      const correctEl = document.getElementById("stroop-correct");
+      const totalEl = document.getElementById("stroop-total");
+      const msg = document.getElementById("stroop-message");
+      const startBtn = document.getElementById("stroop-start-btn");
+      const endBtn = document.getElementById("stroop-end-btn");
+      const optionButtons = document.querySelectorAll("[data-stroop-answer]");
+
+      let playing = false;
+      let correct = 0;
+      let total = 0;
+      let currentColor = null; // 正解となるインクの色
+      let lastScore = null;
+
+      function updateDisplay() {
+        correctEl.textContent = correct;
+        totalEl.textContent = total;
+      }
+
+      function newQuestion() {
+        const textColor = colors[Math.floor(Math.random() * colors.length)];
+        const inkColor = colors[Math.floor(Math.random() * colors.length)];
+        currentColor = inkColor;
+        wordEl.textContent = textColor;
+        wordEl.style.color = colorValues[inkColor];
+        total++;
+        updateDisplay();
+      }
+
+      startBtn.addEventListener("click", () => {
+        playing = true;
+        correct = 0;
+        total = 0;
+        lastScore = null;
+        updateDisplay();
+        msg.textContent = "インクの色を答えてね。";
+        newQuestion();
+      });
+
+      optionButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (!playing) {
+            msg.textContent = "まずは「スタート」を押してね。";
+            return;
+          }
+          const ans = btn.getAttribute("data-stroop-answer");
+          if (ans === currentColor) {
+            correct++;
+            msg.textContent = "正解！";
+          } else {
+            msg.textContent = "おしい… インクの色をよく見てみよう。";
+          }
+          lastScore = correct;
+          newQuestion();
+        });
+      });
+
+      endBtn.addEventListener("click", () => {
+        playing = false;
+        if (lastScore == null) {
+          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
+          wordEl.textContent = "スタートを押してね";
+          wordEl.style.color = "#f9fafb";
+          msg.textContent = "";
+          correct = 0;
+          total = 0;
+          updateDisplay();
+          return;
+        }
+        msg.textContent = `終了しました。正解数は ${lastScore} 問でした。`;
+        askNameAndSave("stroop", lastScore, true);
+        wordEl.textContent = "スタートを押してね";
+        wordEl.style.color = "#f9fafb";
+        correct = 0;
+        total = 0;
+        lastScore = null;
+        updateDisplay();
+      });
+    })();
+
+    // ===== 数字タップ 1〜25 =====
+    (function setupTap25() {
+      const board = document.getElementById("tap25-board");
+      const nextEl = document.getElementById("tap25-next");
+      const timeEl = document.getElementById("tap25-time");
+      const startBtn = document.getElementById("tap25-start-btn");
+      const endBtn = document.getElementById("tap25-end-btn");
+      const msg = document.getElementById("tap25-message");
+
+      let nextNumber = 1;
+      let startTime = null;
+      let timerId = null;
+      let playing = false;
+      let lastTimeSec = null;
+
+      function updateDisplay() {
+        nextEl.textContent = nextNumber;
+      }
+
+      function resetBoard() {
+        board.innerHTML = "";
+        const nums = Array.from({ length: 25 }, (_, i) => i + 1);
+        for (let i = nums.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [nums[i], nums[j]] = [nums[j], nums[i]];
+        }
+        nums.forEach((n) => {
+          const btn = document.createElement("button");
+          btn.className = "tap25-cell";
+          btn.textContent = n;
+          btn.addEventListener("click", () => handleClick(btn, n));
+          board.appendChild(btn);
+        });
+      }
+
+      function handleClick(btn, num) {
+        if (!playing) return;
+        if (num === nextNumber) {
+          btn.classList.add("done");
+          if (nextNumber === 1) {
+            startTime = performance.now();
+            if (timerId) clearInterval(timerId);
+            timerId = setInterval(() => {
+              const t = (performance.now() - startTime) / 1000;
+              timeEl.textContent = t.toFixed(1);
+            }, 100);
+          }
+          nextNumber++;
+          updateDisplay();
+          if (nextNumber > 25) {
+            playing = false;
+            if (timerId) clearInterval(timerId);
+            timerId = null;
+            const t = (performance.now() - startTime) / 1000;
+            lastTimeSec = Number(t.toFixed(1));
+            msg.textContent = `クリア！タイムは ${lastTimeSec} 秒でした。気に入ったら「終了・リセット」で登録できます。`;
+          }
+        } else {
+          msg.textContent = "数字は順番に押してね。";
+        }
+      }
+
+      function resetAll() {
+        playing = false;
+        if (timerId) clearInterval(timerId);
+        timerId = null;
+        nextNumber = 1;
+        startTime = null;
+        lastTimeSec = null;
+        timeEl.textContent = "0.0";
+        updateDisplay();
+        resetBoard();
+        msg.textContent = "";
+      }
+
+      startBtn.addEventListener("click", () => {
+        resetAll();
+        playing = true;
+        msg.textContent = "1から順番にタップしてね。";
+      });
+
+      endBtn.addEventListener("click", () => {
+        if (playing) {
+          playing = false;
+          if (timerId) clearInterval(timerId);
+          timerId = null;
+          msg.textContent = "途中で終了しました。もう一度チャレンジしてみよう。";
+          nextNumber = 1;
+          updateDisplay();
+          return;
+        }
+        if (lastTimeSec == null) {
+          alert("まだクリアした記録がありません。まずは25までタップしてみよう！");
+          resetAll();
+          return;
+        }
+        askNameAndSave("tap25", lastTimeSec, false);
+        resetAll();
+      });
+
+      // 画面遷移時など用（メッセージなし）
+      window.tap25ForceStop = function () {
+        if (timerId) clearInterval(timerId);
+        timerId = null;
+        playing = false;
+        timeEl.textContent = "0.0";
+        nextNumber = 1;
+        updateDisplay();
+        msg.textContent = "";
+      };
+
+      resetBoard();
+      updateDisplay();
+    })();
+
+    // ===== 仲間分け =====
+    (function setupGroup() {
+      const items = [
+        { word: "いぬ", cat: "生き物" },
+        { word: "ねこ", cat: "生き物" },
+        { word: "さかな", cat: "生き物" },
+        { word: "とり", cat: "生き物" },
+        { word: "ごりら", cat: "生き物" },
+        { word: "りんご", cat: "食べ物" },
+        { word: "ごはん", cat: "食べ物" },
+        { word: "パン", cat: "食べ物" },
+        { word: "ラーメン", cat: "食べ物" },
+        { word: "ケーキ", cat: "食べ物" }
+      ];
+
+      const wordEl = document.getElementById("group-word");
+      const correctEl = document.getElementById("group-correct");
+      const totalEl = document.getElementById("group-total");
+      const msg = document.getElementById("group-message");
+      const leftBtn = document.getElementById("group-left-btn");
+      const rightBtn = document.getElementById("group-right-btn");
+      const startBtn = document.getElementById("group-start-btn");
+      const endBtn = document.getElementById("group-end-btn");
+
+      let playing = false;
+      let correct = 0;
+      let total = 0;
+      let currentItem = null;
+      let lastScore = null;
+
+      function updateDisplay() {
+        correctEl.textContent = correct;
+        totalEl.textContent = total;
+      }
+
+      function newQuestion() {
+        currentItem = items[Math.floor(Math.random() * items.length)];
+        wordEl.textContent = currentItem.word;
+        total++;
+        updateDisplay();
+      }
+
+      function handleAnswer(side) {
+        if (!playing) {
+          msg.textContent = "まずは「スタート」を押してね。";
+          return;
+        }
+        if (!currentItem) return;
+        if (side === currentItem.cat) {
+          correct++;
+          msg.textContent = "正解！";
+        } else {
+          msg.textContent = "おしい… もう一度チャレンジ！";
+        }
+        lastScore = correct;
+        newQuestion();
+      }
+
+      startBtn.addEventListener("click", () => {
+        playing = true;
+        correct = 0;
+        total = 0;
+        lastScore = null;
+        msg.textContent = "ことばをよく見て選んでね。";
+        updateDisplay();
+        newQuestion();
+      });
+
+      leftBtn.addEventListener("click", () => handleAnswer("生き物"));
+      rightBtn.addEventListener("click", () => handleAnswer("食べ物"));
+
+      endBtn.addEventListener("click", () => {
+        playing = false;
+        if (lastScore == null) {
+          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
+          wordEl.textContent = "スタートを押してね";
+          msg.textContent = "";
+          correct = 0;
+          total = 0;
+          updateDisplay();
+          return;
+        }
+        msg.textContent = `終了しました。正解数は ${lastScore} 問でした。`;
+        askNameAndSave("group", lastScore, true);
+        wordEl.textContent = "スタートを押してね";
+        correct = 0;
+        total = 0;
+        lastScore = null;
+        updateDisplay();
+      });
+    })();
+
+    // ===== 数字逆順 =====
+    (function setupReverse() {
+      const levelEl = document.getElementById("reverse-level");
+      const bestEl = document.getElementById("reverse-best");
+      const seqEl = document.getElementById("reverse-seq");
+      const answerInput = document.getElementById("reverse-answer");
+      const startBtn = document.getElementById("reverse-start-btn");
+      const submitBtn = document.getElementById("reverse-submit-btn");
+      const endBtn = document.getElementById("reverse-end-btn");
+      const msg = document.getElementById("reverse-message");
+
+      let level = 1;
+      let best = 0;
+      let currentSeq = "";
+      let playing = false;
+      let lastScore = null;
+
+      function updateDisplay() {
+        levelEl.textContent = level;
+        bestEl.textContent = best;
+      }
+
+      function makeSequence(len) {
+        let s = "";
+        for (let i = 0; i < len; i++) {
+          s += String(Math.floor(Math.random() * 9) + 1);
+        }
+        return s;
+      }
+
+      function newRound() {
+        currentSeq = makeSequence(level);
+        seqEl.textContent = currentSeq.split("").join(" ");
+        answerInput.value = "";
+        answerInput.disabled = false;
+        submitBtn.disabled = false;
+        answerInput.focus();
+      }
+
+      function handleAnswer() {
+        if (!playing) return;
+        const ans = answerInput.value.trim();
+        const correct = currentSeq.split("").reverse().join("");
+        if (ans === correct) {
+          msg.textContent = "正解！レベルアップ！";
+          level++;
+          if (level - 1 > best) best = level - 1;
+          updateDisplay();
+          newRound();
+        } else {
+          playing = false;
+          lastScore = level - 1;
+          if (lastScore > best) best = lastScore;
+          updateDisplay();
+          msg.textContent = `まちがいです。正解は ${correct}。到達レベルは ${lastScore} でした。満足したら「終了・リセット」で登録しましょう。`;
+          answerInput.disabled = true;
+          submitBtn.disabled = true;
+        }
+      }
+
+      startBtn.addEventListener("click", () => {
+        playing = true;
+        level = 1;
+        lastScore = null;
+        msg.textContent = "表示された数字を逆から入力してね。";
+        updateDisplay();
+        newRound();
+      });
+
+      submitBtn.addEventListener("click", handleAnswer);
+      answerInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleAnswer();
+      });
+
+      endBtn.addEventListener("click", () => {
+        if (playing) {
+          playing = false;
+          lastScore = level - 1;
+          if (lastScore < 0) lastScore = 0;
+          if (lastScore > best) best = lastScore;
+          msg.textContent = `手動で終了しました。到達レベルは ${lastScore} でした。`;
+          answerInput.disabled = true;
+          submitBtn.disabled = true;
+          updateDisplay();
+        }
+        if (lastScore == null || lastScore <= 0) {
+          alert("まだ登録できるレベルがありません。まずはプレイしてみよう！");
+          seqEl.textContent = "スタートを押してね";
+          msg.textContent = "";
+          return;
+        }
+        askNameAndSave("reverse", lastScore, true);
+        seqEl.textContent = "スタートを押してね";
+        level = 1;
+        lastScore = null;
+        answerInput.disabled = true;
+        submitBtn.disabled = true;
+        msg.textContent = "";
+        updateDisplay();
+      });
+
+      updateDisplay();
+    })();
+
+    // ===== 1つ前ゲーム (1-back) =====
+    (function setupNBack() {
+      const letterEl = document.getElementById("nback-letter");
+      const correctEl = document.getElementById("nback-correct");
+      const missEl = document.getElementById("nback-miss");
+      const msg = document.getElementById("nback-message");
+      const hitBtn = document.getElementById("nback-hit-btn");
+      const startBtn = document.getElementById("nback-start-btn");
+      const endBtn = document.getElementById("nback-end-btn");
+
+      const letters = ["A", "B", "C", "D"];
+      let seqTimer = null;
+      let playing = false;
+      let index = 0;
+      let current = null;
+      let prev = null;
+      let correct = 0;
+      let miss = 0;
+      let lastScore = null;
+
+      function updateDisplay() {
+        correctEl.textContent = correct;
+        missEl.textContent = miss;
+      }
+
+      function nextLetter() {
+        if (!playing) return;
+        prev = current;
+        current = letters[Math.floor(Math.random() * letters.length)];
+        letterEl.textContent = current;
+        index++;
+        if (index >= 20) {
+          playing = false;
+          if (seqTimer) clearInterval(seqTimer);
+          seqTimer = null;
+          msg.textContent = `一連の表示が終わりました。正解 ${correct} 回、ミス ${miss} 回です。満足したら「終了・リセット」で登録できます。`;
+          lastScore = correct;
+        }
+      }
+
+      function handleHit() {
+        if (!playing && lastScore == null) {
+          msg.textContent = "まずは「スタート」を押してね。";
+          return;
+        }
+        if (!current || !prev) return;
+        if (!playing && lastScore != null) {
+          return;
+        }
+        const isSame = current === prev;
+        if (isSame) {
+          correct++;
+          msg.textContent = "正解！よく覚えていました。";
+        } else {
+          miss++;
+          msg.textContent = "おしい… 1つ前と同じときだけ押そう。";
+        }
+        updateDisplay();
+      }
+
+      startBtn.addEventListener("click", () => {
+        if (seqTimer) clearInterval(seqTimer);
+        playing = true;
+        index = 0;
+        current = null;
+        prev = null;
+        correct = 0;
+        miss = 0;
+        lastScore = null;
+        updateDisplay();
+        msg.textContent = "1つ前と同じときだけ「同じ！」を押してね。";
+        nextLetter();
+        seqTimer = setInterval(nextLetter, 2000);
+      });
+
+      hitBtn.addEventListener("click", handleHit);
+
+      endBtn.addEventListener("click", () => {
+        if (playing) {
+          playing = false;
+          if (seqTimer) clearInterval(seqTimer);
+          seqTimer = null;
+          lastScore = correct;
+          msg.textContent = `手動で終了しました。正解 ${correct} 回、ミス ${miss} 回でした。`;
+        }
+        if (lastScore == null || lastScore < 0) {
+          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
+          letterEl.textContent = "スタートを押してね";
+          msg.textContent = "";
+          correct = 0;
+          miss = 0;
+          updateDisplay();
+          return;
+        }
+        askNameAndSave("nback", lastScore, true);
+        letterEl.textContent = "スタートを押してね";
+        correct = 0;
+        miss = 0;
+        lastScore = null;
+        updateDisplay();
+        msg.textContent = "";
+      });
+
+      window.nbackForceStop = function () {
+        if (seqTimer) clearInterval(seqTimer);
+        seqTimer = null;
+        playing = false;
+        letterEl.textContent = "スタートを押してね";
+        msg.textContent = "";
+        correct = 0;
+        miss = 0;
+        updateDisplay();
+      };
+    })();
+
+    // ===== フラッシュ合計 =====
+    (function setupFlash() {
+      const numberEl = document.getElementById("flash-number");
+      const correctEl = document.getElementById("flash-correct");
+      const roundEl = document.getElementById("flash-round");
+      const msg = document.getElementById("flash-message");
+      const answerInput = document.getElementById("flash-answer");
+      const startBtn = document.getElementById("flash-start-btn");
+      const submitBtn = document.getElementById("flash-submit-btn");
+      const endBtn = document.getElementById("flash-end-btn");
+
+      let playing = false;
+      let showing = false;
+      let sum = 0;
+      let count = 0;
+      let timer = null;
+      let correct = 0;
+      let round = 0;
+      let lastScore = null;
+
+      function updateDisplay() {
+        correctEl.textContent = correct;
+        roundEl.textContent = round;
+      }
+
+      function showSequence() {
+        showing = true;
+        sum = 0;
+        count = 0;
+        round++;
+        updateDisplay();
+        msg.textContent = "数字をよく見て、あとで合計を答えてね。";
+        answerInput.value = "";
+        answerInput.disabled = true;
+        submitBtn.disabled = true;
+
+        timer = setInterval(() => {
+          if (count >= 7) {
+            clearInterval(timer);
+            timer = null;
+            showing = false;
+            numberEl.textContent = "?";
+            answerInput.disabled = false;
+            submitBtn.disabled = false;
+            answerInput.focus();
+            msg.textContent = "合計を入力して「回答」を押してください。";
+            return;
+          }
+          const n = Math.floor(Math.random() * 9) + 1;
+          sum += n;
+          count++;
+          numberEl.textContent = n;
+        }, 700);
+      }
+
+      function handleAnswer() {
+        if (!playing || showing) return;
+        const val = parseInt(answerInput.value, 10);
+        if (Number.isNaN(val)) {
+          msg.textContent = "数字で入力してね。";
+          return;
+        }
+        if (val === sum) {
+          correct++;
+          msg.textContent = "正解！次のラウンドへ。";
+        } else {
+          msg.textContent = `おしい… 正解は ${sum} でした。`;
+        }
+        lastScore = correct;
+        updateDisplay();
+        showSequence();
+      }
+
+      startBtn.addEventListener("click", () => {
+        if (timer) clearInterval(timer);
+        playing = true;
+        correct = 0;
+        round = 0;
+        lastScore = null;
+        updateDisplay();
+        showSequence();
+      });
+
+      submitBtn.addEventListener("click", handleAnswer);
+      answerInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleAnswer();
+      });
+
+      endBtn.addEventListener("click", () => {
+        playing = false;
+        if (timer) clearInterval(timer);
+        timer = null;
+        showing = false;
+        if (lastScore == null) {
+          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
+          numberEl.textContent = "スタートを押してね";
+          msg.textContent = "";
+          correct = 0;
+          round = 0;
+          updateDisplay();
+          answerInput.disabled = true;
+          submitBtn.disabled = true;
+          return;
+        }
+        msg.textContent = `終了しました。正解は ${lastScore} 回でした。`;
+        askNameAndSave("flash", lastScore, true);
+        numberEl.textContent = "スタートを押してね";
+        correct = 0;
+        round = 0;
+        lastScore = null;
+        updateDisplay();
+        answerInput.disabled = true;
+        submitBtn.disabled = true;
+      });
+
+      window.flashForceStop = function () {
+        if (timer) clearInterval(timer);
+        timer = null;
+        playing = false;
+        showing = false;
+        numberEl.textContent = "スタートを押してね";
+        msg.textContent = "";
+        correct = 0;
+        round = 0;
+        updateDisplay();
+      };
+
+      updateDisplay();
+    })();
+
+    // ===== 矢印記憶 =====
+    (function setupArrows() {
+      const arrows = ["↑", "→", "↓", "←"];
+      const levelEl = document.getElementById("arrows-level");
+      const bestEl = document.getElementById("arrows-best");
+      const seqEl = document.getElementById("arrows-seq");
+      const msg = document.getElementById("arrows-message");
+      const startBtn = document.getElementById("arrows-start-btn");
+      const endBtn = document.getElementById("arrows-end-btn");
+      const arrowBtns = document.querySelectorAll("[data-arrow]");
+
+      let level = 1;
+      let best = 0;
+      let sequence = [];
+      let userIndex = 0;
+      let showing = false;
+      let playing = false;
+      let timers = [];
+      let lastScore = null;
+
+      function updateDisplay() {
+        levelEl.textContent = level;
+        bestEl.textContent = best;
+      }
+
+      function clearTimers() {
+        timers.forEach((t) => clearTimeout(t));
+        timers = [];
+      }
+
+      function showSequence() {
+        showing = true;
+        seqEl.textContent = "";
+        msg.textContent = "矢印をよく覚えてね…";
+        clearTimers();
+        sequence.forEach((arrow, i) => {
+          const t = setTimeout(() => {
+            seqEl.textContent = arrow;
+          }, i * 700);
+          timers.push(t);
+        });
+        const endT = setTimeout(() => {
+          showing = false;
+          seqEl.textContent = "？";
+          msg.textContent = "同じ順番で矢印ボタンを押してね。";
+        }, sequence.length * 700 + 500);
+        timers.push(endT);
+      }
+
+      function nextRound() {
+        sequence.push(arrows[Math.floor(Math.random() * arrows.length)]);
+        userIndex = 0;
+        showSequence();
+      }
+
+      function gameOver() {
+        playing = false;
+        clearTimers();
+        lastScore = level - 1;
+        if (lastScore > best) best = lastScore;
+        updateDisplay();
+        msg.textContent = `まちがいです。到達レベルは ${lastScore} でした。満足したら「終了・リセット」で登録できます。`;
+      }
+
+      function resetAll() {
+        clearTimers();
+        level = 1;
+        sequence = [];
+        userIndex = 0;
+        showing = false;
+        playing = false;
+        lastScore = null;
+        seqEl.textContent = "スタートを押してね";
+        msg.textContent = "";
+        updateDisplay();
+      }
+
+      startBtn.addEventListener("click", () => {
+        clearTimers();
+        level = 1;
+        sequence = [];
+        userIndex = 0;
+        showing = false;
+        playing = true;
+        lastScore = null;
+        msg.textContent = "さあ、スタート！";
+        updateDisplay();
+        nextRound();
+      });
+
+      arrowBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (!playing || showing) return;
+          const arrow = btn.getAttribute("data-arrow");
+          const expected = sequence[userIndex];
+          if (arrow === expected) {
+            userIndex++;
+            if (userIndex >= sequence.length) {
+              level++;
+              if (level - 1 > best) best = level - 1;
+              updateDisplay();
+              msg.textContent = "正解！次のレベルへ。";
+              setTimeout(nextRound, 800);
+            }
+          } else {
+            gameOver();
+          }
+        });
+      });
+
+      endBtn.addEventListener("click", () => {
+        if (playing) {
+          playing = false;
+          clearTimers();
+          lastScore = level - 1;
+          if (lastScore > best) best = lastScore;
+          msg.textContent = `手動で終了しました。到達レベルは ${lastScore} でした。`;
+          updateDisplay();
+        }
+        if (lastScore == null || lastScore <= 0) {
+          alert("まだ登録できるレベルがありません。まずはプレイしてみよう！");
+          resetAll();
+          return;
+        }
+        askNameAndSave("arrows", lastScore, true);
+        resetAll();
+      });
+
+      updateDisplay();
+    })();
+
+    // ===== ことば並べ替え =====
+    (function setupWords() {
+      const words = ["さくら", "やま", "かわ", "ほし", "くるま", "ねこ", "いぬ", "すいか", "ごはん", "あめ"];
+      const scrambledEl = document.getElementById("words-scrambled");
+      const correctEl = document.getElementById("words-correct");
+      const totalEl = document.getElementById("words-total");
+      const msg = document.getElementById("words-message");
+      const answerInput = document.getElementById("words-answer");
+      const startBtn = document.getElementById("words-start-btn");
+      const submitBtn = document.getElementById("words-submit-btn");
+      const endBtn = document.getElementById("words-end-btn");
+
+      let playing = false;
+      let currentWord = "";
+      let correct = 0;
+      let total = 0;
+      let lastScore = null;
+
+      function updateDisplay() {
+        correctEl.textContent = correct;
+        totalEl.textContent = total;
+      }
+
+      function shuffleString(str) {
+        const arr = [...str];
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr.join("");
+      }
+
+      function newQuestion() {
+        currentWord = words[Math.floor(Math.random() * words.length)];
+        let s = shuffleString(currentWord);
+        if (s === currentWord) s = shuffleString(currentWord);
+        scrambledEl.textContent = s;
+        total++;
+        updateDisplay();
+        answerInput.disabled = false;
+        submitBtn.disabled = false;
+        answerInput.value = "";
+        answerInput.focus();
+      }
+
+      function handleAnswer() {
+        if (!playing) return;
+        const ans = answerInput.value.trim();
+        if (!ans) return;
+        if (ans === currentWord) {
+          correct++;
+          msg.textContent = "正解！";
+        } else {
+          msg.textContent = `おしい… 正解は「${currentWord}」でした。`;
+        }
+        lastScore = correct;
+        updateDisplay();
+        newQuestion();
+      }
+
+      startBtn.addEventListener("click", () => {
+        playing = true;
+        correct = 0;
+        total = 0;
+        lastScore = null;
+        msg.textContent = "バラバラのひらがなを正しいことばにしてね。";
+        updateDisplay();
+        newQuestion();
+      });
+
+      submitBtn.addEventListener("click", handleAnswer);
+      answerInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleAnswer();
+      });
+
+      endBtn.addEventListener("click", () => {
+        playing = false;
+        answerInput.disabled = true;
+        submitBtn.disabled = true;
+        if (lastScore == null) {
+          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
+          scrambledEl.textContent = "スタートを押してね";
+          msg.textContent = "";
+          correct = 0;
+          total = 0;
+          updateDisplay();
+          return;
+        }
+        msg.textContent = `終了しました。正解数は ${lastScore} 問でした。`;
+        askNameAndSave("words", lastScore, true);
+        scrambledEl.textContent = "スタートを押してね";
+        correct = 0;
+        total = 0;
+        lastScore = null;
+        updateDisplay();
+      });
+
+      updateDisplay();
+    })();
+
+    // 初期化：ランキング読み込み＆描画
+    loadRankings();
+    const allGames = [
+      "reaction", "calc", "memory", "stroop", "tap25",
+      "group", "reverse", "nback", "flash", "arrows", "words"
+    ];
+    allGames.forEach(renderRanking);
+  </script>
+</body>
+</html>
