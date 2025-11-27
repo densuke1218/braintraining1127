@@ -7,7 +7,7 @@
   <style>
     :root {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 18px; /* 全体の文字を少し大きく */
+      font-size: 20px; /* 全体をさらに大きく */
     }
     body {
       margin: 0;
@@ -27,11 +27,11 @@
     }
     header h1 {
       margin: 0 0 4px;
-      font-size: 2rem;
+      font-size: 2.3rem;
     }
     header p {
       margin: 0;
-      font-size: 1rem;
+      font-size: 1.05rem;
       color: #cbd5f5;
     }
     .top-nav {
@@ -44,9 +44,9 @@
     button {
       border: none;
       border-radius: 999px;
-      padding: 10px 18px;
+      padding: 12px 22px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.1rem;
       background: #1d4ed8;
       color: #f9fafb;
       transition: transform 0.07s ease, box-shadow 0.07s ease, background 0.15s;
@@ -72,6 +72,16 @@
     .btn-secondary:hover:not(:disabled) {
       background: #94a3b8;
     }
+    .btn-small {
+      font-size: 0.95rem;
+      padding: 8px 14px;
+    }
+    .big-main-btn {
+      flex: 1;
+      min-width: 140px;
+      font-size: 1.4rem;
+      padding: 16px 22px;
+    }
 
     main {
       background: rgba(15,23,42,0.85);
@@ -88,11 +98,11 @@
     }
     h2 {
       margin-top: 0;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
     }
     h3 {
       margin-top: 1.2rem;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
     }
     .game-grid {
       display: grid;
@@ -111,8 +121,8 @@
     }
     .tag {
       display: inline-block;
-      font-size: 0.8rem;
-      padding: 3px 10px;
+      font-size: 0.9rem;
+      padding: 4px 11px;
       border-radius: 999px;
       background: rgba(59,130,246,0.15);
       color: #bfdbfe;
@@ -120,7 +130,7 @@
     }
     .muted {
       color: #94a3b8;
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
     .home-btn {
       margin-top: 10px;
@@ -128,7 +138,7 @@
     }
     .ranking-list {
       padding-left: 20px;
-      font-size: 0.95rem;
+      font-size: 0.98rem;
       max-height: 180px;
       overflow-y: auto;
     }
@@ -138,18 +148,18 @@
     .status-row {
       display: flex;
       justify-content: space-between;
-      font-size: 1rem;
+      font-size: 1.05rem;
       margin-bottom: 6px;
     }
     input[type="number"],
     input[type="text"] {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border-radius: 999px;
       border: 1px solid rgba(148,163,184,0.7);
       background: #020617;
       color: #e5e7eb;
-      font-size: 1rem;
+      font-size: 1.1rem;
       box-sizing: border-box;
       margin: 6px 0;
     }
@@ -166,25 +176,27 @@
       font-weight: 600;
       color: #fbbf24;
     }
+
     /* Reaction game */
     #reaction-box {
       text-align: center;
-      padding: 16px;
+      padding: 20px;
       border-radius: 12px;
       background: #111827;
       transition: background 0.2s;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
     }
     #reaction-box.go {
       background: #15803d;
     }
     #reaction-message {
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
     #reaction-result {
-      margin-top: 8px;
-      font-size: 1.1rem;
+      margin-top: 10px;
+      font-size: 1.2rem;
     }
+
     /* Memory game */
     #memory-board {
       display: grid;
@@ -193,7 +205,7 @@
       margin: 8px 0 10px;
     }
     .memory-tile {
-      height: 90px;
+      height: 100px;
       border-radius: 12px;
       border: none;
       cursor: pointer;
@@ -211,14 +223,15 @@
     .memory-tile[data-index="3"] { background: #eab308; }
     #memory-level {
       font-weight: 600;
+      font-size: 1.2rem;
     }
 
     /* 共通：大きめボタン用 */
     .big-option-btn {
       flex: 1;
       min-width: 120px;
-      font-size: 1.1rem;
-      padding: 12px 10px;
+      font-size: 1.2rem;
+      padding: 14px 12px;
     }
 
     /* 1〜25用ボード */
@@ -229,8 +242,8 @@
       margin-top: 8px;
     }
     .tap25-cell {
-      height: 70px;
-      font-size: 1.3rem;
+      height: 80px;
+      font-size: 1.4rem;
       border-radius: 10px;
       border: none;
       background: #1f2937;
@@ -245,7 +258,7 @@
 
     /* ストループ文字 */
     #stroop-word {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       margin: 10px 0;
       text-align: center;
@@ -253,18 +266,24 @@
 
     /* 矢印ボタン */
     .arrow-btn {
-      font-size: 1.6rem;
-      padding: 12px 14px;
+      font-size: 1.8rem;
+      padding: 14px 16px;
       flex: 1;
       min-width: 90px;
     }
 
+    /* フラッシュ数表示 */
+    #flash-number {
+      font-size: 2.4rem;
+      font-weight: 700;
+    }
+
     @media (max-width: 640px) {
       main { padding: 12px; }
-      header h1 { font-size: 1.7rem; }
-      :root { font-size: 17px; }
-      .tap25-cell { height: 60px; font-size: 1.15rem; }
-      .memory-tile { height: 80px; }
+      header h1 { font-size: 2rem; }
+      :root { font-size: 18px; }
+      .tap25-cell { height: 70px; font-size: 1.25rem; }
+      .memory-tile { height: 90px; }
     }
   </style>
 </head>
@@ -283,11 +302,8 @@
       <button data-target="screen-stroop">🎨 色ことば</button>
       <button data-target="screen-tap25">🔢 1〜25</button>
       <button data-target="screen-group">🧺 仲間分け</button>
-      <button data-target="screen-reverse">🔁 逆順数字</button>
-      <button data-target="screen-nback">🔁 1つ前</button>
       <button data-target="screen-flash">➕ フラッシュ</button>
       <button data-target="screen-arrows">🔼 矢印記憶</button>
-      <button data-target="screen-words">✏️ ことば</button>
     </nav>
 
     <main>
@@ -296,7 +312,8 @@
         <h2>ゲームをえらんでスタート！</h2>
         <p class="muted">
           それぞれのゲームの結果はブラウザ内に保存されます。<br />
-          何回かプレイして<strong>気に入った結果が出たら、各ゲーム画面の「終了・リセット」でランキングに登録</strong>できます。
+          何回かプレイして<strong>気に入った結果が出たら、各ゲーム画面の「終了・ランキング登録」ボタン</strong>で登録できます。<br />
+          ゲームの途中でやめるときは<strong>「リセット」ボタン</strong>を押してください。
         </p>
         <div class="game-grid">
           <div class="game-card">
@@ -336,21 +353,9 @@
             <button data-target="screen-group">このゲームで遊ぶ</button>
           </div>
           <div class="game-card">
-            <span class="tag">ワーキングメモリ</span>
-            <h3>🔁 数字逆順</h3>
-            <p class="muted">出てきた数字を逆から答えるゲーム。</p>
-            <button data-target="screen-reverse">このゲームで遊ぶ</button>
-          </div>
-          <div class="game-card">
-            <span class="tag">注意</span>
-            <h3>🔁 1つ前ゲーム</h3>
-            <p class="muted">1つ前と同じかどうかを判断。</p>
-            <button data-target="screen-nback">このゲームで遊ぶ</button>
-          </div>
-          <div class="game-card">
             <span class="tag">計算・記憶</span>
             <h3>➕ フラッシュ合計</h3>
-            <p class="muted">次々出る数字の合計を覚えておくゲーム。</p>
+            <p class="muted">次々出る数字の合計を覚える。<br>連続正解数を競います。</p>
             <button data-target="screen-flash">このゲームで遊ぶ</button>
           </div>
           <div class="game-card">
@@ -359,71 +364,49 @@
             <p class="muted">矢印の順番を覚えて再現。</p>
             <button data-target="screen-arrows">このゲームで遊ぶ</button>
           </div>
-          <div class="game-card">
-            <span class="tag">言葉</span>
-            <h3>✏️ ことば並べ替え</h3>
-            <p class="muted">バラバラの文字を正しい単語に。</p>
-            <button data-target="screen-words">このゲームで遊ぶ</button>
-          </div>
         </div>
 
         <h3 style="margin-top:16px;">みんなのランキング（ダイジェスト）</h3>
         <div class="game-grid">
-          <!-- 各ゲームのランキング簡易表示 -->
           <div class="game-card">
-            <h3 style="font-size:1.1rem;">⚡ 反射</h3>
+            <h3 style="font-size:1.2rem;">⚡ 反射</h3>
             <p id="no-ranking-reaction-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-reaction-home" class="ranking-list"></ol>
           </div>
           <div class="game-card">
-            <h3 style="font-size:1.1rem;">➗ 計算</h3>
+            <h3 style="font-size:1.2rem;">➗ 計算</h3>
             <p id="no-ranking-calc-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-calc-home" class="ranking-list"></ol>
           </div>
           <div class="game-card">
-            <h3 style="font-size:1.1rem;">🧩 記憶</h3>
+            <h3 style="font-size:1.2rem;">🧩 記憶</h3>
             <p id="no-ranking-memory-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-memory-home" class="ranking-list"></ol>
           </div>
           <div class="game-card">
-            <h3 style="font-size:1.1rem;">🎨 色ことば</h3>
+            <h3 style="font-size:1.2rem;">🎨 色ことば</h3>
             <p id="no-ranking-stroop-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-stroop-home" class="ranking-list"></ol>
           </div>
           <div class="game-card">
-            <h3 style="font-size:1.1rem;">🔢 1〜25</h3>
+            <h3 style="font-size:1.2rem;">🔢 1〜25</h3>
             <p id="no-ranking-tap25-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-tap25-home" class="ranking-list"></ol>
           </div>
           <div class="game-card">
-            <h3 style="font-size:1.1rem;">🧺 仲間分け</h3>
+            <h3 style="font-size:1.2rem;">🧺 仲間分け</h3>
             <p id="no-ranking-group-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-group-home" class="ranking-list"></ol>
           </div>
           <div class="game-card">
-            <h3 style="font-size:1.1rem;">🔁 逆順数字</h3>
-            <p id="no-ranking-reverse-home" class="muted">まだ記録がありません。</p>
-            <ol id="ranking-reverse-home" class="ranking-list"></ol>
-          </div>
-          <div class="game-card">
-            <h3 style="font-size:1.1rem;">🔁 1つ前</h3>
-            <p id="no-ranking-nback-home" class="muted">まだ記録がありません。</p>
-            <ol id="ranking-nback-home" class="ranking-list"></ol>
-          </div>
-          <div class="game-card">
-            <h3 style="font-size:1.1rem;">➕ フラッシュ</h3>
+            <h3 style="font-size:1.2rem;">➕ フラッシュ</h3>
             <p id="no-ranking-flash-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-flash-home" class="ranking-list"></ol>
           </div>
           <div class="game-card">
-            <h3 style="font-size:1.1rem;">🔼 矢印</h3>
+            <h3 style="font-size:1.2rem;">🔼 矢印</h3>
             <p id="no-ranking-arrows-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-arrows-home" class="ranking-list"></ol>
-          </div>
-          <div class="game-card">
-            <h3 style="font-size:1.1rem;">✏️ ことば</h3>
-            <p id="no-ranking-words-home" class="muted">まだ記録がありません。</p>
-            <ol id="ranking-words-home" class="ranking-list"></ol>
           </div>
         </div>
       </section>
@@ -434,15 +417,19 @@
         <p class="muted">
           「スタート」で少し待つと、画面が<span class="emphasis">緑色</span>になります。<br />
           緑になったら、できるだけ早く「今だ！」ボタンを押してください。<br />
-          納得いく記録が出たら<strong>「終了・リセット」</strong>でランキング登録します。
+          納得いく記録が出たら<strong>「終了・ランキング登録」</strong>で登録できます。<br />
+          やり直したいときは<strong>「リセット」</strong>を押してください。
         </p>
 
         <div class="game-card" id="reaction-box">
           <p id="reaction-message">準備OK？「スタート」を押してね。</p>
-          <div class="button-row" style="justify-content:center;">
-            <button id="reaction-start-btn">スタート</button>
-            <button id="reaction-click-btn" disabled>今だ！</button>
-            <button id="reaction-end-btn" class="btn-secondary">終了・リセット</button>
+          <div class="button-row" style="justify-content:center; margin-top:8px;">
+            <button id="reaction-start-btn" class="big-main-btn">スタート</button>
+            <button id="reaction-click-btn" class="big-main-btn" disabled>今だ！</button>
+          </div>
+          <div class="button-row" style="justify-content:center; margin-top:14px;">
+            <button id="reaction-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
+            <button id="reaction-reset-btn" class="btn-secondary btn-small">リセット</button>
           </div>
           <p id="reaction-result"></p>
         </div>
@@ -460,7 +447,8 @@
         <p class="muted">
           「スタート」で30秒のカウントダウンが始まります。<br />
           足し算・引き算をできるだけたくさん解きましょう。<br />
-          途中でやめたいときも<strong>「終了・リセット」</strong>でその回を終わらせて、ランキング登録できます。
+          満足したところで<strong>「終了・ランキング登録」</strong>を押すと、その回の正解数でランキング登録します。<br />
+          やり直したいときは<strong>「リセット」</strong>を押してください。
         </p>
 
         <div class="game-card">
@@ -469,7 +457,7 @@
             <span>正解数：<span id="calc-score">0</span></span>
           </div>
 
-          <div id="calc-question-area" style="font-size:1.6rem; margin: 8px 0;">
+          <div id="calc-question-area" style="font-size:1.8rem; margin: 8px 0;">
             <span id="calc-question">「スタート」を押してゲーム開始！</span>
           </div>
 
@@ -477,7 +465,8 @@
           <div class="button-row">
             <button id="calc-start-btn">スタート</button>
             <button id="calc-submit-btn" disabled>回答</button>
-            <button id="calc-end-btn" class="btn-secondary">終了・リセット</button>
+            <button id="calc-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
+            <button id="calc-reset-btn" class="btn-secondary btn-small">リセット</button>
           </div>
           <p id="calc-message" class="muted"></p>
         </div>
@@ -495,7 +484,9 @@
         <p class="muted">
           「スタート」を押すと、色のマスが順番に光ります。<br />
           光った順番どおりにマスをタップしてください。<br />
-          何度かチャレンジして、満足したレベルになったら<strong>「終了・リセット」</strong>でランキング登録します。
+          失敗したときのレベルがスコアになります。<br />
+          満足したところで<strong>「終了・ランキング登録」</strong>を押すと、その到達レベルで登録できます。<br />
+          やり直したいときは<strong>「リセット」</strong>を押してください。
         </p>
 
         <div class="game-card">
@@ -508,7 +499,8 @@
           <p>到達レベル：<span id="memory-level">0</span></p>
           <div class="button-row">
             <button id="memory-start-btn">スタート</button>
-            <button id="memory-end-btn" class="btn-secondary">終了・リセット</button>
+            <button id="memory-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
+            <button id="memory-reset-btn" class="btn-secondary btn-small">リセット</button>
           </div>
           <p id="memory-message" class="muted">まずは「スタート」を押してね。</p>
         </div>
@@ -526,7 +518,8 @@
         <p class="muted">
           表示される「ことば」の<strong>インクの色</strong>を答えるゲームです。<br />
           例：「赤」という文字が青色で表示 → 正解は「青」。<br />
-          正解数がスコアになります。気に入った結果が出たら<strong>「終了・リセット」</strong>で登録してください。
+          正解数がスコアになります。気に入った結果が出たら<strong>「終了・ランキング登録」</strong>を押してください。<br />
+          やり直したいときは<strong>「リセット」</strong>を押してください。
         </p>
 
         <div class="game-card">
@@ -543,7 +536,8 @@
           </div>
           <div class="button-row" style="margin-top:10px;">
             <button id="stroop-start-btn">スタート</button>
-            <button id="stroop-end-btn" class="btn-secondary">終了・リセット</button>
+            <button id="stroop-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
+            <button id="stroop-reset-btn" class="btn-secondary btn-small">リセット</button>
           </div>
           <p id="stroop-message" class="muted"></p>
         </div>
@@ -561,7 +555,8 @@
         <p class="muted">
           「スタート」で1〜25の数字がバラバラに並びます。<br />
           1→2→3…と順番にタップしていき、25まで押し切るタイムを競います。<br />
-          クリア後に<strong>「終了・リセット」</strong>でタイムをランキング登録できます。
+          25までクリアしたあとに<strong>「終了・ランキング登録」</strong>を押すと、そのタイムで登録します。<br />
+          途中でやめるときは<strong>「リセット」</strong>を押してください。
         </p>
 
         <div class="game-card">
@@ -572,7 +567,8 @@
           <div id="tap25-board"></div>
           <div class="button-row" style="margin-top:10px;">
             <button id="tap25-start-btn">スタート</button>
-            <button id="tap25-end-btn" class="btn-secondary">終了・リセット</button>
+            <button id="tap25-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
+            <button id="tap25-reset-btn" class="btn-secondary btn-small">リセット</button>
           </div>
           <p id="tap25-message" class="muted"></p>
         </div>
@@ -589,7 +585,8 @@
         <h2>🧺 仲間分けゲーム</h2>
         <p class="muted">
           出てくることばを、左「生き物」か右「食べ物」かに分けてください。<br />
-          正解数がスコアになります。好きなところで<strong>「終了・リセット」</strong>して登録できます。
+          正解数がスコアになります。好きなところで<strong>「終了・ランキング登録」</strong>して登録できます。<br />
+          やり直したいときは<strong>「リセット」</strong>を押してください。
         </p>
 
         <div class="game-card">
@@ -597,7 +594,7 @@
             <span>正解数：<span id="group-correct">0</span></span>
             <span>問題数：<span id="group-total">0</span></span>
           </div>
-          <div style="font-size:1.8rem; text-align:center; margin:10px 0;">
+          <div style="font-size:2rem; text-align:center; margin:10px 0;">
             <span id="group-word">スタートを押してね</span>
           </div>
           <div class="button-row">
@@ -606,7 +603,8 @@
           </div>
           <div class="button-row" style="margin-top:10px;">
             <button id="group-start-btn">スタート</button>
-            <button id="group-end-btn" class="btn-secondary">終了・リセット</button>
+            <button id="group-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
+            <button id="group-reset-btn" class="btn-secondary btn-small">リセット</button>
           </div>
           <p id="group-message" class="muted"></p>
         </div>
@@ -618,102 +616,37 @@
         <ol id="ranking-group" class="ranking-list"></ol>
       </section>
 
-      <!-- 数字逆順 -->
-      <section id="screen-reverse" class="screen">
-        <h2>🔁 数字逆順ゲーム</h2>
-        <p class="muted">
-          数字が1列表示されます。そのあと、<strong>逆の順番</strong>で数字を入力してください。<br />
-          1問正解するごとに桁数が1つ増えていきます。<br />
-          まちがえたときの「到達レベル」がスコアです。何回か挑戦して、<strong>満足したら「終了・リセット」</strong>で登録しましょう。
-        </p>
-
-        <div class="game-card">
-          <div class="status-row">
-            <span>現在レベル：<span id="reverse-level">1</span></span>
-            <span>最高レベル：<span id="reverse-best">0</span></span>
-          </div>
-          <div style="font-size:1.8rem; text-align:center; margin:10px 0;">
-            問題：<span id="reverse-seq">スタートを押してね</span>
-          </div>
-          <input id="reverse-answer" type="text" placeholder="ここに逆順で数字を入力" disabled />
-          <div class="button-row">
-            <button id="reverse-start-btn">スタート</button>
-            <button id="reverse-submit-btn" disabled>回答</button>
-            <button id="reverse-end-btn" class="btn-secondary">終了・リセット</button>
-          </div>
-          <p id="reverse-message" class="muted"></p>
-        </div>
-
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
-
-        <h3>🔁 数字逆順ランキング（レベルが高いほどスゴイ）</h3>
-        <p id="no-ranking-reverse" class="muted">まだ記録がありません。</p>
-        <ol id="ranking-reverse" class="ranking-list"></ol>
-      </section>
-
-      <!-- 1つ前ゲーム -->
-      <section id="screen-nback" class="screen">
-        <h2>🔁 1つ前ゲーム</h2>
-        <p class="muted">
-          A〜Dの文字が順番に表示されます。<br />
-          今出ている文字が<strong>1つ前と同じときだけ「同じ！」ボタン</strong>を押してください。<br />
-          正解した回数がスコアです。「終了・リセット」で結果をまとめて登録できます。
-        </p>
-
-        <div class="game-card">
-          <div class="status-row">
-            <span>正解数：<span id="nback-correct">0</span></span>
-            <span>ミス：<span id="nback-miss">0</span></span>
-          </div>
-          <div style="font-size:2.2rem; text-align:center; margin:10px 0;">
-            <span id="nback-letter">スタートを押してね</span>
-          </div>
-          <div class="button-row" style="justify-content:center;">
-            <button id="nback-hit-btn" class="big-option-btn">同じ！</button>
-          </div>
-          <div class="button-row" style="margin-top:10px;">
-            <button id="nback-start-btn">スタート</button>
-            <button id="nback-end-btn" class="btn-secondary">終了・リセット</button>
-          </div>
-          <p id="nback-message" class="muted"></p>
-        </div>
-
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
-
-        <h3>🔁 1つ前ゲーム ランキング（多いほどスゴイ）</h3>
-        <p id="no-ranking-nback" class="muted">まだ記録がありません。</p>
-        <ol id="ranking-nback" class="ranking-list"></ol>
-      </section>
-
-      <!-- フラッシュ合計 -->
+      <!-- フラッシュ合計（連続正解数で競う） -->
       <section id="screen-flash" class="screen">
         <h2>➕ フラッシュ合計ゲーム</h2>
         <p class="muted">
           1ケタの数字が次々に表示されます。すべての数字の<strong>合計</strong>を覚えておき、最後に答えましょう。<br />
-          1ラウンド終わるたびに新しいラウンドが始まります。正解した回数がスコアです。<br />
-          いいところまでいったら<strong>「終了・リセット」</strong>で登録してください。
+          1問ごとに「正解 / 不正解」を表示し、<strong>プレイヤーが自分で「次の問題」ボタンで進みます</strong>。<br />
+          <strong>連続で正解した回数（最高連続正解数）</strong>がスコアになります。<br />
+          満足したところで<strong>「終了・ランキング登録」</strong>を押してください。やり直しは<strong>「リセット」</strong>で。
         </p>
 
         <div class="game-card">
           <div class="status-row">
-            <span>正解数：<span id="flash-correct">0</span></span>
-            <span>ラウンド数：<span id="flash-round">0</span></span>
+            <span>現在の連続正解：<span id="flash-streak">0</span> 回</span>
+            <span>最高連続正解：<span id="flash-best">0</span> 回</span>
           </div>
-          <div style="font-size:2.2rem; text-align:center; margin:10px 0;">
+          <div style="text-align:center; margin:10px 0;">
             <span id="flash-number">スタートを押してね</span>
           </div>
           <input id="flash-answer" type="number" placeholder="合計を入力" disabled />
           <div class="button-row">
-            <button id="flash-start-btn">スタート</button>
+            <button id="flash-next-btn">スタート / 次の問題</button>
             <button id="flash-submit-btn" disabled>回答</button>
-            <button id="flash-end-btn" class="btn-secondary">終了・リセット</button>
+            <button id="flash-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
+            <button id="flash-reset-btn" class="btn-secondary btn-small">リセット</button>
           </div>
           <p id="flash-message" class="muted"></p>
         </div>
 
         <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
 
-        <h3>➕ フラッシュ合計 ランキング（多いほどスゴイ）</h3>
+        <h3>➕ フラッシュ合計 ランキング（連続正解が多いほどスゴイ）</h3>
         <p id="no-ranking-flash" class="muted">まだ記録がありません。</p>
         <ol id="ranking-flash" class="ranking-list"></ol>
       </section>
@@ -724,7 +657,8 @@
         <p class="muted">
           矢印（↑→↓←）が順番に表示されます。<br />
           よく覚えて、同じ順番でボタンを押してください。<br />
-          まちがえたときのレベルがスコアです。満足したら<strong>「終了・リセット」</strong>で登録できます。
+          まちがえたときのレベルがスコアです。満足したら<strong>「終了・ランキング登録」</strong>で登録できます。<br />
+          やり直したいときは<strong>「リセット」</strong>を押してください。
         </p>
 
         <div class="game-card">
@@ -732,7 +666,7 @@
             <span>現在レベル：<span id="arrows-level">1</span></span>
             <span>最高レベル：<span id="arrows-best">0</span></span>
           </div>
-          <div style="font-size:2rem; text-align:center; margin:10px 0;">
+          <div style="font-size:2.1rem; text-align:center; margin:10px 0;">
             <span id="arrows-seq">スタートを押してね</span>
           </div>
           <div class="button-row">
@@ -743,7 +677,8 @@
           </div>
           <div class="button-row" style="margin-top:10px;">
             <button id="arrows-start-btn">スタート</button>
-            <button id="arrows-end-btn" class="btn-secondary">終了・リセット</button>
+            <button id="arrows-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
+            <button id="arrows-reset-btn" class="btn-secondary btn-small">リセット</button>
           </div>
           <p id="arrows-message" class="muted"></p>
         </div>
@@ -753,39 +688,6 @@
         <h3>🔼 矢印記憶 ランキング（レベルが高いほどスゴイ）</h3>
         <p id="no-ranking-arrows" class="muted">まだ記録がありません。</p>
         <ol id="ranking-arrows" class="ranking-list"></ol>
-      </section>
-
-      <!-- ことば並べ替え -->
-      <section id="screen-words" class="screen">
-        <h2>✏️ ことば並べ替えゲーム</h2>
-        <p class="muted">
-          ひらがなの順番がバラバラになったことばが出ます。<br />
-          正しいことばになるように並べ替えて入力してください。<br />
-          正解した回数がスコアです。「終了・リセット」で登録します。
-        </p>
-
-        <div class="game-card">
-          <div class="status-row">
-            <span>正解数：<span id="words-correct">0</span></span>
-            <span>問題数：<span id="words-total">0</span></span>
-          </div>
-          <div style="font-size:1.8rem; text-align:center; margin:10px 0;">
-            <span id="words-scrambled">スタートを押してね</span>
-          </div>
-          <input id="words-answer" type="text" placeholder="正しいことばを入力" disabled />
-          <div class="button-row">
-            <button id="words-start-btn">スタート</button>
-            <button id="words-submit-btn" disabled>回答</button>
-            <button id="words-end-btn" class="btn-secondary">終了・リセット</button>
-          </div>
-          <p id="words-message" class="muted"></p>
-        </div>
-
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
-
-        <h3>✏️ ことば並べ替え ランキング（多いほどスゴイ）</h3>
-        <p id="no-ranking-words" class="muted">まだ記録がありません。</p>
-        <ol id="ranking-words" class="ranking-list"></ol>
       </section>
     </main>
   </div>
@@ -801,9 +703,8 @@
     document.querySelectorAll("[data-target]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const id = btn.getAttribute("data-target");
-        // 計算ゲームなどのタイマーを安全に止める（メッセージは出さない）
+        // タイマー系ゲームを静かに止める
         if (window.calcForceStop) window.calcForceStop();
-        if (window.nbackForceStop) window.nbackForceStop();
         if (window.flashForceStop) window.flashForceStop();
         if (window.tap25ForceStop) window.tap25ForceStop();
         showScreen(id);
@@ -811,7 +712,7 @@
     });
 
     // ===== ランキング管理 =====
-    const RANKING_KEY = "brainTrainerRankings_v3";
+    const RANKING_KEY = "brainTrainerRankings_v4";
     let rankings = {};
 
     function loadRankings() {
@@ -874,11 +775,8 @@
         if (gameId === "stroop") unit = " 問";
         if (gameId === "tap25") unit = " 秒";
         if (gameId === "group") unit = " 問";
-        if (gameId === "reverse") unit = " レベル";
-        if (gameId === "nback") unit = " 回";
         if (gameId === "flash") unit = " 回";
         if (gameId === "arrows") unit = " レベル";
-        if (gameId === "words") unit = " 問";
 
         li.textContent = `${medal}${index + 1}位: ${entry.name} - ${entry.score}${unit}`;
         list.appendChild(li);
@@ -902,7 +800,7 @@
         if (score >= 20) comment = "天才級の計算力！";
         else if (score >= 10) comment = "いいペース！その調子！";
         else comment = "ウォーミングアップはここから！";
-      } else if (gameId === "memory" || gameId === "reverse" || gameId === "arrows") {
+      } else if (gameId === "memory" || gameId === "arrows") {
         if (score >= 10) comment = "すごい記憶力！";
         else if (score >= 5) comment = "集中できてる！";
         else comment = "続ければもっと伸びるよ！";
@@ -910,7 +808,7 @@
         if (score <= 25) comment = "超高速クリア！";
         else if (score <= 40) comment = "なかなかの速さ！";
         else comment = "次はもう少し急いでみよう！";
-      } else if (["stroop", "group", "nback", "flash", "words"].includes(gameId)) {
+      } else if (["stroop", "group", "flash"].includes(gameId)) {
         if (score >= 20) comment = "集中力バッチリ！";
         else if (score >= 10) comment = "いい調子！";
         else comment = "少しずつ慣れていこう！";
@@ -933,6 +831,7 @@
       const startBtn = document.getElementById("reaction-start-btn");
       const clickBtn = document.getElementById("reaction-click-btn");
       const endBtn = document.getElementById("reaction-end-btn");
+      const resetBtn = document.getElementById("reaction-reset-btn");
 
       let state = "idle"; // idle | waiting | go
       let timeoutId = null;
@@ -946,6 +845,13 @@
         box.classList.remove("go");
         if (timeoutId) clearTimeout(timeoutId);
         timeoutId = null;
+      }
+
+      function resetUI() {
+        resetForNext();
+        lastScore = null;
+        message.textContent = "準備OK？「スタート」を押してね。";
+        result.textContent = "";
       }
 
       startBtn.addEventListener("click", () => {
@@ -976,23 +882,23 @@
           const diff = Math.round(performance.now() - startTime);
           lastScore = diff;
           result.textContent = `今回の反応時間：${diff} ms`;
-          message.textContent = "納得いく記録が出たら「終了・リセット」でランキング登録してね。";
+          message.textContent = "納得いく記録が出たら「終了・ランキング登録」で登録してね。";
           resetForNext();
         }
       });
 
       endBtn.addEventListener("click", () => {
-        resetForNext();
         if (lastScore == null) {
           alert("まだ登録できる記録がありません。まずはプレイしてみよう！");
-          message.textContent = "準備OK？「スタート」を押してね。";
-          result.textContent = "";
+          resetUI();
           return;
         }
         askNameAndSave("reaction", lastScore, false);
-        lastScore = null;
-        message.textContent = "準備OK？「スタート」を押してね。";
-        result.textContent = "";
+        resetUI();
+      });
+
+      resetBtn.addEventListener("click", () => {
+        resetUI();
       });
     })();
 
@@ -1005,6 +911,7 @@
       const startBtn = document.getElementById("calc-start-btn");
       const submitBtn = document.getElementById("calc-submit-btn");
       const endBtn = document.getElementById("calc-end-btn");
+      const resetBtn = document.getElementById("calc-reset-btn");
       const msg = document.getElementById("calc-message");
 
       let remaining = 30;
@@ -1062,7 +969,7 @@
         startBtn.disabled = false;
         lastScore = score;
         if (reason === "time") {
-          msg.textContent = `時間切れ！正解数は ${score} 問でした。気に入った結果なら「終了・リセット」で登録できます。`;
+          msg.textContent = `時間切れ！正解数は ${score} 問でした。`;
         } else if (reason === "manual") {
           msg.textContent = `手動で終了しました。正解数は ${score} 問でした。`;
         }
@@ -1090,6 +997,7 @@
         playing = true;
         remaining = 30;
         score = 0;
+        lastScore = null;
         updateDisplay();
         makeQuestion();
         answerInput.disabled = false;
@@ -1127,7 +1035,11 @@
         resetAll();
       });
 
-      // 画面遷移時に強制リセット（メッセージなし）
+      resetBtn.addEventListener("click", () => {
+        resetAll();
+      });
+
+      // 画面遷移時に強制リセット
       window.calcForceStop = function () {
         if (timerId) clearInterval(timerId);
         timerId = null;
@@ -1150,6 +1062,7 @@
       const levelEl = document.getElementById("memory-level");
       const startBtn = document.getElementById("memory-start-btn");
       const endBtn = document.getElementById("memory-end-btn");
+      const resetBtn = document.getElementById("memory-reset-btn");
       const msg = document.getElementById("memory-message");
 
       let sequence = [];
@@ -1208,7 +1121,7 @@
         clearTimers();
         tiles.forEach((t) => t.classList.remove("active"));
         lastScore = level;
-        msg.textContent = `ゲームオーバー… 到達レベルは ${level} でした。満足したら「終了・リセット」で登録できます。`;
+        msg.textContent = `ゲームオーバー… 到達レベルは ${level} でした。満足したら「終了・ランキング登録」で登録できます。`;
         startBtn.textContent = "もう一回！";
       }
 
@@ -1256,6 +1169,10 @@
         resetAll();
       });
 
+      resetBtn.addEventListener("click", () => {
+        resetAll();
+      });
+
       tiles.forEach((tile) => {
         tile.addEventListener("click", () => {
           if (!playing || busyShowing) return;
@@ -1294,12 +1211,13 @@
       const msg = document.getElementById("stroop-message");
       const startBtn = document.getElementById("stroop-start-btn");
       const endBtn = document.getElementById("stroop-end-btn");
+      const resetBtn = document.getElementById("stroop-reset-btn");
       const optionButtons = document.querySelectorAll("[data-stroop-answer]");
 
       let playing = false;
       let correct = 0;
       let total = 0;
-      let currentColor = null; // 正解となるインクの色
+      let currentColor = null;
       let lastScore = null;
 
       function updateDisplay() {
@@ -1315,6 +1233,17 @@
         wordEl.style.color = colorValues[inkColor];
         total++;
         updateDisplay();
+      }
+
+      function resetAll() {
+        playing = false;
+        correct = 0;
+        total = 0;
+        lastScore = null;
+        updateDisplay();
+        wordEl.textContent = "スタートを押してね";
+        wordEl.style.color = "#f9fafb";
+        msg.textContent = "";
       }
 
       startBtn.addEventListener("click", () => {
@@ -1349,22 +1278,16 @@
         playing = false;
         if (lastScore == null) {
           alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
-          wordEl.textContent = "スタートを押してね";
-          wordEl.style.color = "#f9fafb";
-          msg.textContent = "";
-          correct = 0;
-          total = 0;
-          updateDisplay();
+          resetAll();
           return;
         }
         msg.textContent = `終了しました。正解数は ${lastScore} 問でした。`;
         askNameAndSave("stroop", lastScore, true);
-        wordEl.textContent = "スタートを押してね";
-        wordEl.style.color = "#f9fafb";
-        correct = 0;
-        total = 0;
-        lastScore = null;
-        updateDisplay();
+        resetAll();
+      });
+
+      resetBtn.addEventListener("click", () => {
+        resetAll();
       });
     })();
 
@@ -1375,6 +1298,7 @@
       const timeEl = document.getElementById("tap25-time");
       const startBtn = document.getElementById("tap25-start-btn");
       const endBtn = document.getElementById("tap25-end-btn");
+      const resetBtn = document.getElementById("tap25-reset-btn");
       const msg = document.getElementById("tap25-message");
 
       let nextNumber = 1;
@@ -1423,7 +1347,7 @@
             timerId = null;
             const t = (performance.now() - startTime) / 1000;
             lastTimeSec = Number(t.toFixed(1));
-            msg.textContent = `クリア！タイムは ${lastTimeSec} 秒でした。気に入ったら「終了・リセット」で登録できます。`;
+            msg.textContent = `クリア！タイムは ${lastTimeSec} 秒でした。満足したら「終了・ランキング登録」で登録できます。`;
           }
         } else {
           msg.textContent = "数字は順番に押してね。";
@@ -1450,13 +1374,8 @@
       });
 
       endBtn.addEventListener("click", () => {
-        if (playing) {
-          playing = false;
-          if (timerId) clearInterval(timerId);
-          timerId = null;
-          msg.textContent = "途中で終了しました。もう一度チャレンジしてみよう。";
-          nextNumber = 1;
-          updateDisplay();
+        if (playing && nextNumber <= 25) {
+          alert("まずは 25 までタップしてクリアしてから登録してね。");
           return;
         }
         if (lastTimeSec == null) {
@@ -1468,7 +1387,10 @@
         resetAll();
       });
 
-      // 画面遷移時など用（メッセージなし）
+      resetBtn.addEventListener("click", () => {
+        resetAll();
+      });
+
       window.tap25ForceStop = function () {
         if (timerId) clearInterval(timerId);
         timerId = null;
@@ -1506,6 +1428,7 @@
       const rightBtn = document.getElementById("group-right-btn");
       const startBtn = document.getElementById("group-start-btn");
       const endBtn = document.getElementById("group-end-btn");
+      const resetBtn = document.getElementById("group-reset-btn");
 
       let playing = false;
       let correct = 0;
@@ -1523,6 +1446,16 @@
         wordEl.textContent = currentItem.word;
         total++;
         updateDisplay();
+      }
+
+      function resetAll() {
+        playing = false;
+        correct = 0;
+        total = 0;
+        lastScore = null;
+        updateDisplay();
+        wordEl.textContent = "スタートを押してね";
+        msg.textContent = "";
       }
 
       function handleAnswer(side) {
@@ -1558,273 +1491,49 @@
         playing = false;
         if (lastScore == null) {
           alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
-          wordEl.textContent = "スタートを押してね";
-          msg.textContent = "";
-          correct = 0;
-          total = 0;
-          updateDisplay();
+          resetAll();
           return;
         }
         msg.textContent = `終了しました。正解数は ${lastScore} 問でした。`;
         askNameAndSave("group", lastScore, true);
-        wordEl.textContent = "スタートを押してね";
-        correct = 0;
-        total = 0;
-        lastScore = null;
-        updateDisplay();
+        resetAll();
+      });
+
+      resetBtn.addEventListener("click", () => {
+        resetAll();
       });
     })();
 
-    // ===== 数字逆順 =====
-    (function setupReverse() {
-      const levelEl = document.getElementById("reverse-level");
-      const bestEl = document.getElementById("reverse-best");
-      const seqEl = document.getElementById("reverse-seq");
-      const answerInput = document.getElementById("reverse-answer");
-      const startBtn = document.getElementById("reverse-start-btn");
-      const submitBtn = document.getElementById("reverse-submit-btn");
-      const endBtn = document.getElementById("reverse-end-btn");
-      const msg = document.getElementById("reverse-message");
-
-      let level = 1;
-      let best = 0;
-      let currentSeq = "";
-      let playing = false;
-      let lastScore = null;
-
-      function updateDisplay() {
-        levelEl.textContent = level;
-        bestEl.textContent = best;
-      }
-
-      function makeSequence(len) {
-        let s = "";
-        for (let i = 0; i < len; i++) {
-          s += String(Math.floor(Math.random() * 9) + 1);
-        }
-        return s;
-      }
-
-      function newRound() {
-        currentSeq = makeSequence(level);
-        seqEl.textContent = currentSeq.split("").join(" ");
-        answerInput.value = "";
-        answerInput.disabled = false;
-        submitBtn.disabled = false;
-        answerInput.focus();
-      }
-
-      function handleAnswer() {
-        if (!playing) return;
-        const ans = answerInput.value.trim();
-        const correct = currentSeq.split("").reverse().join("");
-        if (ans === correct) {
-          msg.textContent = "正解！レベルアップ！";
-          level++;
-          if (level - 1 > best) best = level - 1;
-          updateDisplay();
-          newRound();
-        } else {
-          playing = false;
-          lastScore = level - 1;
-          if (lastScore > best) best = lastScore;
-          updateDisplay();
-          msg.textContent = `まちがいです。正解は ${correct}。到達レベルは ${lastScore} でした。満足したら「終了・リセット」で登録しましょう。`;
-          answerInput.disabled = true;
-          submitBtn.disabled = true;
-        }
-      }
-
-      startBtn.addEventListener("click", () => {
-        playing = true;
-        level = 1;
-        lastScore = null;
-        msg.textContent = "表示された数字を逆から入力してね。";
-        updateDisplay();
-        newRound();
-      });
-
-      submitBtn.addEventListener("click", handleAnswer);
-      answerInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") handleAnswer();
-      });
-
-      endBtn.addEventListener("click", () => {
-        if (playing) {
-          playing = false;
-          lastScore = level - 1;
-          if (lastScore < 0) lastScore = 0;
-          if (lastScore > best) best = lastScore;
-          msg.textContent = `手動で終了しました。到達レベルは ${lastScore} でした。`;
-          answerInput.disabled = true;
-          submitBtn.disabled = true;
-          updateDisplay();
-        }
-        if (lastScore == null || lastScore <= 0) {
-          alert("まだ登録できるレベルがありません。まずはプレイしてみよう！");
-          seqEl.textContent = "スタートを押してね";
-          msg.textContent = "";
-          return;
-        }
-        askNameAndSave("reverse", lastScore, true);
-        seqEl.textContent = "スタートを押してね";
-        level = 1;
-        lastScore = null;
-        answerInput.disabled = true;
-        submitBtn.disabled = true;
-        msg.textContent = "";
-        updateDisplay();
-      });
-
-      updateDisplay();
-    })();
-
-    // ===== 1つ前ゲーム (1-back) =====
-    (function setupNBack() {
-      const letterEl = document.getElementById("nback-letter");
-      const correctEl = document.getElementById("nback-correct");
-      const missEl = document.getElementById("nback-miss");
-      const msg = document.getElementById("nback-message");
-      const hitBtn = document.getElementById("nback-hit-btn");
-      const startBtn = document.getElementById("nback-start-btn");
-      const endBtn = document.getElementById("nback-end-btn");
-
-      const letters = ["A", "B", "C", "D"];
-      let seqTimer = null;
-      let playing = false;
-      let index = 0;
-      let current = null;
-      let prev = null;
-      let correct = 0;
-      let miss = 0;
-      let lastScore = null;
-
-      function updateDisplay() {
-        correctEl.textContent = correct;
-        missEl.textContent = miss;
-      }
-
-      function nextLetter() {
-        if (!playing) return;
-        prev = current;
-        current = letters[Math.floor(Math.random() * letters.length)];
-        letterEl.textContent = current;
-        index++;
-        if (index >= 20) {
-          playing = false;
-          if (seqTimer) clearInterval(seqTimer);
-          seqTimer = null;
-          msg.textContent = `一連の表示が終わりました。正解 ${correct} 回、ミス ${miss} 回です。満足したら「終了・リセット」で登録できます。`;
-          lastScore = correct;
-        }
-      }
-
-      function handleHit() {
-        if (!playing && lastScore == null) {
-          msg.textContent = "まずは「スタート」を押してね。";
-          return;
-        }
-        if (!current || !prev) return;
-        if (!playing && lastScore != null) {
-          return;
-        }
-        const isSame = current === prev;
-        if (isSame) {
-          correct++;
-          msg.textContent = "正解！よく覚えていました。";
-        } else {
-          miss++;
-          msg.textContent = "おしい… 1つ前と同じときだけ押そう。";
-        }
-        updateDisplay();
-      }
-
-      startBtn.addEventListener("click", () => {
-        if (seqTimer) clearInterval(seqTimer);
-        playing = true;
-        index = 0;
-        current = null;
-        prev = null;
-        correct = 0;
-        miss = 0;
-        lastScore = null;
-        updateDisplay();
-        msg.textContent = "1つ前と同じときだけ「同じ！」を押してね。";
-        nextLetter();
-        seqTimer = setInterval(nextLetter, 2000);
-      });
-
-      hitBtn.addEventListener("click", handleHit);
-
-      endBtn.addEventListener("click", () => {
-        if (playing) {
-          playing = false;
-          if (seqTimer) clearInterval(seqTimer);
-          seqTimer = null;
-          lastScore = correct;
-          msg.textContent = `手動で終了しました。正解 ${correct} 回、ミス ${miss} 回でした。`;
-        }
-        if (lastScore == null || lastScore < 0) {
-          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
-          letterEl.textContent = "スタートを押してね";
-          msg.textContent = "";
-          correct = 0;
-          miss = 0;
-          updateDisplay();
-          return;
-        }
-        askNameAndSave("nback", lastScore, true);
-        letterEl.textContent = "スタートを押してね";
-        correct = 0;
-        miss = 0;
-        lastScore = null;
-        updateDisplay();
-        msg.textContent = "";
-      });
-
-      window.nbackForceStop = function () {
-        if (seqTimer) clearInterval(seqTimer);
-        seqTimer = null;
-        playing = false;
-        letterEl.textContent = "スタートを押してね";
-        msg.textContent = "";
-        correct = 0;
-        miss = 0;
-        updateDisplay();
-      };
-    })();
-
-    // ===== フラッシュ合計 =====
+    // ===== フラッシュ合計（連続正解） =====
     (function setupFlash() {
       const numberEl = document.getElementById("flash-number");
-      const correctEl = document.getElementById("flash-correct");
-      const roundEl = document.getElementById("flash-round");
+      const streakEl = document.getElementById("flash-streak");
+      const bestEl = document.getElementById("flash-best");
       const msg = document.getElementById("flash-message");
       const answerInput = document.getElementById("flash-answer");
-      const startBtn = document.getElementById("flash-start-btn");
+      const nextBtn = document.getElementById("flash-next-btn");
       const submitBtn = document.getElementById("flash-submit-btn");
       const endBtn = document.getElementById("flash-end-btn");
+      const resetBtn = document.getElementById("flash-reset-btn");
 
       let playing = false;
       let showing = false;
       let sum = 0;
       let count = 0;
       let timer = null;
-      let correct = 0;
-      let round = 0;
-      let lastScore = null;
+      let streak = 0;
+      let best = 0;
+      let lastBestForRanking = null;
 
       function updateDisplay() {
-        correctEl.textContent = correct;
-        roundEl.textContent = round;
+        streakEl.textContent = streak;
+        bestEl.textContent = best;
       }
 
       function showSequence() {
         showing = true;
         sum = 0;
         count = 0;
-        round++;
-        updateDisplay();
         msg.textContent = "数字をよく見て、あとで合計を答えてね。";
         answerInput.value = "";
         answerInput.disabled = true;
@@ -1849,6 +1558,24 @@
         }, 700);
       }
 
+      function resetAll() {
+        if (timer) clearInterval(timer);
+        timer = null;
+        playing = false;
+        showing = false;
+        sum = 0;
+        count = 0;
+        streak = 0;
+        best = 0;
+        lastBestForRanking = null;
+        numberEl.textContent = "スタートを押してね";
+        msg.textContent = "";
+        answerInput.value = "";
+        answerInput.disabled = true;
+        submitBtn.disabled = true;
+        updateDisplay();
+      }
+
       function handleAnswer() {
         if (!playing || showing) return;
         const val = parseInt(answerInput.value, 10);
@@ -1857,23 +1584,29 @@
           return;
         }
         if (val === sum) {
-          correct++;
-          msg.textContent = "正解！次のラウンドへ。";
+          streak++;
+          if (streak > best) best = streak;
+          lastBestForRanking = best;
+          msg.textContent = `正解！現在の連続正解は ${streak} 回です。「次の問題」で続けよう。`;
         } else {
-          msg.textContent = `おしい… 正解は ${sum} でした。`;
+          msg.textContent = `不正解… 正解は ${sum} でした。連続正解は 0 にリセットされます。`;
+          streak = 0;
+          lastBestForRanking = best;
         }
-        lastScore = correct;
         updateDisplay();
-        showSequence();
+        answerInput.disabled = true;
+        submitBtn.disabled = true;
       }
 
-      startBtn.addEventListener("click", () => {
-        if (timer) clearInterval(timer);
-        playing = true;
-        correct = 0;
-        round = 0;
-        lastScore = null;
-        updateDisplay();
+      nextBtn.addEventListener("click", () => {
+        if (!playing) {
+          playing = true;
+          streak = 0;
+          best = 0;
+          lastBestForRanking = null;
+          updateDisplay();
+        }
+        if (showing) return;
         showSequence();
       });
 
@@ -1887,26 +1620,18 @@
         if (timer) clearInterval(timer);
         timer = null;
         showing = false;
-        if (lastScore == null) {
-          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
-          numberEl.textContent = "スタートを押してね";
-          msg.textContent = "";
-          correct = 0;
-          round = 0;
-          updateDisplay();
-          answerInput.disabled = true;
-          submitBtn.disabled = true;
+        if (!lastBestForRanking || lastBestForRanking <= 0) {
+          alert("まだ登録できる結果がありません。まずは何問か正解してみよう！");
+          resetAll();
           return;
         }
-        msg.textContent = `終了しました。正解は ${lastScore} 回でした。`;
-        askNameAndSave("flash", lastScore, true);
-        numberEl.textContent = "スタートを押してね";
-        correct = 0;
-        round = 0;
-        lastScore = null;
-        updateDisplay();
-        answerInput.disabled = true;
-        submitBtn.disabled = true;
+        msg.textContent = `終了しました。最高連続正解は ${lastBestForRanking} 回でした。`;
+        askNameAndSave("flash", lastBestForRanking, true);
+        resetAll();
+      });
+
+      resetBtn.addEventListener("click", () => {
+        resetAll();
       });
 
       window.flashForceStop = function () {
@@ -1916,8 +1641,9 @@
         showing = false;
         numberEl.textContent = "スタートを押してね";
         msg.textContent = "";
-        correct = 0;
-        round = 0;
+        streak = 0;
+        best = 0;
+        lastBestForRanking = null;
         updateDisplay();
       };
 
@@ -1933,6 +1659,7 @@
       const msg = document.getElementById("arrows-message");
       const startBtn = document.getElementById("arrows-start-btn");
       const endBtn = document.getElementById("arrows-end-btn");
+      const resetBtn = document.getElementById("arrows-reset-btn");
       const arrowBtns = document.querySelectorAll("[data-arrow]");
 
       let level = 1;
@@ -1985,7 +1712,7 @@
         lastScore = level - 1;
         if (lastScore > best) best = lastScore;
         updateDisplay();
-        msg.textContent = `まちがいです。到達レベルは ${lastScore} でした。満足したら「終了・リセット」で登録できます。`;
+        msg.textContent = `まちがいです。到達レベルは ${lastScore} でした。満足したら「終了・ランキング登録」で登録できます。`;
       }
 
       function resetAll() {
@@ -2040,8 +1767,8 @@
           clearTimers();
           lastScore = level - 1;
           if (lastScore > best) best = lastScore;
-          msg.textContent = `手動で終了しました。到達レベルは ${lastScore} でした。`;
           updateDisplay();
+          msg.textContent = `手動で終了しました。到達レベルは ${lastScore} でした。`;
         }
         if (lastScore == null || lastScore <= 0) {
           alert("まだ登録できるレベルがありません。まずはプレイしてみよう！");
@@ -2052,104 +1779,8 @@
         resetAll();
       });
 
-      updateDisplay();
-    })();
-
-    // ===== ことば並べ替え =====
-    (function setupWords() {
-      const words = ["さくら", "やま", "かわ", "ほし", "くるま", "ねこ", "いぬ", "すいか", "ごはん", "あめ"];
-      const scrambledEl = document.getElementById("words-scrambled");
-      const correctEl = document.getElementById("words-correct");
-      const totalEl = document.getElementById("words-total");
-      const msg = document.getElementById("words-message");
-      const answerInput = document.getElementById("words-answer");
-      const startBtn = document.getElementById("words-start-btn");
-      const submitBtn = document.getElementById("words-submit-btn");
-      const endBtn = document.getElementById("words-end-btn");
-
-      let playing = false;
-      let currentWord = "";
-      let correct = 0;
-      let total = 0;
-      let lastScore = null;
-
-      function updateDisplay() {
-        correctEl.textContent = correct;
-        totalEl.textContent = total;
-      }
-
-      function shuffleString(str) {
-        const arr = [...str];
-        for (let i = arr.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr.join("");
-      }
-
-      function newQuestion() {
-        currentWord = words[Math.floor(Math.random() * words.length)];
-        let s = shuffleString(currentWord);
-        if (s === currentWord) s = shuffleString(currentWord);
-        scrambledEl.textContent = s;
-        total++;
-        updateDisplay();
-        answerInput.disabled = false;
-        submitBtn.disabled = false;
-        answerInput.value = "";
-        answerInput.focus();
-      }
-
-      function handleAnswer() {
-        if (!playing) return;
-        const ans = answerInput.value.trim();
-        if (!ans) return;
-        if (ans === currentWord) {
-          correct++;
-          msg.textContent = "正解！";
-        } else {
-          msg.textContent = `おしい… 正解は「${currentWord}」でした。`;
-        }
-        lastScore = correct;
-        updateDisplay();
-        newQuestion();
-      }
-
-      startBtn.addEventListener("click", () => {
-        playing = true;
-        correct = 0;
-        total = 0;
-        lastScore = null;
-        msg.textContent = "バラバラのひらがなを正しいことばにしてね。";
-        updateDisplay();
-        newQuestion();
-      });
-
-      submitBtn.addEventListener("click", handleAnswer);
-      answerInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") handleAnswer();
-      });
-
-      endBtn.addEventListener("click", () => {
-        playing = false;
-        answerInput.disabled = true;
-        submitBtn.disabled = true;
-        if (lastScore == null) {
-          alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
-          scrambledEl.textContent = "スタートを押してね";
-          msg.textContent = "";
-          correct = 0;
-          total = 0;
-          updateDisplay();
-          return;
-        }
-        msg.textContent = `終了しました。正解数は ${lastScore} 問でした。`;
-        askNameAndSave("words", lastScore, true);
-        scrambledEl.textContent = "スタートを押してね";
-        correct = 0;
-        total = 0;
-        lastScore = null;
-        updateDisplay();
+      resetBtn.addEventListener("click", () => {
+        resetAll();
       });
 
       updateDisplay();
@@ -2158,8 +1789,8 @@
     // 初期化：ランキング読み込み＆描画
     loadRankings();
     const allGames = [
-      "reaction", "calc", "memory", "stroop", "tap25",
-      "group", "reverse", "nback", "flash", "arrows", "words"
+      "reaction", "calc", "memory", "stroop",
+      "tap25", "group", "flash", "arrows"
     ];
     allGames.forEach(renderRanking);
   </script>
