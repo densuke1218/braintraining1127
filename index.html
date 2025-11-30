@@ -2,12 +2,12 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>脳トレパーティー</title>
+  <title>脳トレゲーム集</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 20px; /* 全体をさらに大きく */
+      font-size: 20px;
     }
     body {
       margin: 0;
@@ -32,7 +32,7 @@
     header p {
       margin: 0;
       font-size: 1.05rem;
-      color: #cbd5f5;
+      color: #e5e7eb;
     }
     .top-nav {
       display: flex;
@@ -131,6 +131,15 @@
     .muted {
       color: #94a3b8;
       font-size: 1rem;
+    }
+    /* 説明用：くっきり表示 */
+    .explain {
+      color: #f9fafb;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      font-weight: 500;
+      text-shadow: 0 0 4px rgba(0,0,0,0.5);
+      margin-bottom: 12px;
     }
     .home-btn {
       margin-top: 10px;
@@ -264,18 +273,22 @@
       text-align: center;
     }
 
-    /* 矢印ボタン */
-    .arrow-btn {
-      font-size: 1.8rem;
-      padding: 14px 16px;
-      flex: 1;
-      min-width: 90px;
-    }
-
     /* フラッシュ数表示 */
     #flash-number {
-      font-size: 2.4rem;
+      font-size: 3rem;
       font-weight: 700;
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 12px;
+      background: #020617;
+    }
+    .flash-highlight {
+      animation: flashScale 0.25s ease;
+    }
+    @keyframes flashScale {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
 
     @media (max-width: 640px) {
@@ -290,8 +303,8 @@
 <body>
   <div class="container">
     <header>
-      <h1>脳トレパーティー 🧠🎉</h1>
-      <p>高齢者・子ども向け。大きな文字で、反射・計算・記憶・判断をまるごとトレーニング！</p>
+      <h1>脳トレゲーム集 🧠🎮</h1>
+      <p>反射・計算・記憶・判断をまとめてトレーニング！</p>
     </header>
 
     <nav class="top-nav">
@@ -302,14 +315,13 @@
       <button data-target="screen-stroop">🎨 色ことば</button>
       <button data-target="screen-tap25">🔢 1〜25</button>
       <button data-target="screen-flash">➕ フラッシュ</button>
-      <button data-target="screen-arrows">🔼 矢印記憶</button>
     </nav>
 
     <main>
       <!-- ホーム画面 -->
       <section id="screen-home" class="screen active">
         <h2>ゲームをえらんでスタート！</h2>
-        <p class="muted">
+        <p class="explain">
           それぞれのゲームの結果はブラウザ内に保存されます。<br />
           何回かプレイして<strong>気に入った結果が出たら、各ゲーム画面の「終了・ランキング登録」ボタン</strong>で登録できます。<br />
           ゲームの途中でやめるときは<strong>「リセット」ボタン</strong>を押してください。
@@ -348,14 +360,8 @@
           <div class="game-card">
             <span class="tag">計算・記憶</span>
             <h3>➕ フラッシュ合計</h3>
-            <p class="muted">次々出る数字の合計を覚える。<br>連続正解数を競います。</p>
+            <p class="muted">次々出る数字の合計を覚える。連続正解数を競います。</p>
             <button data-target="screen-flash">このゲームで遊ぶ</button>
-          </div>
-          <div class="game-card">
-            <span class="tag">記憶・順序</span>
-            <h3>🔼 矢印記憶</h3>
-            <p class="muted">矢印の順番を覚えて再現。</p>
-            <button data-target="screen-arrows">このゲームで遊ぶ</button>
           </div>
         </div>
 
@@ -391,18 +397,13 @@
             <p id="no-ranking-flash-home" class="muted">まだ記録がありません。</p>
             <ol id="ranking-flash-home" class="ranking-list"></ol>
           </div>
-          <div class="game-card">
-            <h3 style="font-size:1.2rem;">🔼 矢印</h3>
-            <p id="no-ranking-arrows-home" class="muted">まだ記録がありません。</p>
-            <ol id="ranking-arrows-home" class="ranking-list"></ol>
-          </div>
         </div>
       </section>
 
       <!-- 反射神経ゲーム -->
       <section id="screen-reaction" class="screen">
         <h2>⚡ 反射神経ゲーム</h2>
-        <p class="muted">
+        <p class="explain">
           「スタート」で少し待つと、画面が<span class="emphasis">緑色</span>になります。<br />
           緑になったら、できるだけ早く「今だ！」ボタンを押してください。<br />
           納得いく記録が出たら<strong>「終了・ランキング登録」</strong>で登録できます。<br />
@@ -432,7 +433,7 @@
       <!-- 計算チャレンジ -->
       <section id="screen-calc" class="screen">
         <h2>➗ 計算チャレンジ（30秒）</h2>
-        <p class="muted">
+        <p class="explain">
           「スタート」で30秒のカウントダウンが始まります。<br />
           足し算・引き算をできるだけたくさん解きましょう。<br />
           満足したところで<strong>「終了・ランキング登録」</strong>を押すと、その回の正解数でランキング登録します。<br />
@@ -469,7 +470,7 @@
       <!-- 記憶力ゲーム（色マス） -->
       <section id="screen-memory" class="screen">
         <h2>🧩 記憶力ゲーム（色マス）</h2>
-        <p class="muted">
+        <p class="explain">
           「スタート」を押すと、色のマスが順番に光ります。<br />
           光った順番どおりにマスをタップしてください。<br />
           失敗したときのレベルがスコアになります。<br />
@@ -500,20 +501,21 @@
         <ol id="ranking-memory" class="ranking-list"></ol>
       </section>
 
-      <!-- ストループ色ことば -->
+      <!-- ストループ色ことば（30秒タイムアタック） -->
       <section id="screen-stroop" class="screen">
-        <h2>🎨 色ことばゲーム</h2>
-        <p class="muted">
+        <h2>🎨 色ことばゲーム（30秒）</h2>
+        <p class="explain">
           表示される「ことば」の<strong>インクの色</strong>を答えるゲームです。<br />
           例：「赤」という文字が青色で表示 → 正解は「青」。<br />
-          正解数がスコアになります。気に入った結果が出たら<strong>「終了・ランキング登録」</strong>を押してください。<br />
+          「スタート」で30秒のカウントダウンが始まり、<strong>その間に何問正解できるか</strong>を競います。<br />
+          満足したところで<strong>「終了・ランキング登録」</strong>を押してください。<br />
           やり直したいときは<strong>「リセット」</strong>を押してください。
         </p>
 
         <div class="game-card">
           <div class="status-row">
+            <span>残り時間：<span id="stroop-time">30</span> 秒</span>
             <span>正解数：<span id="stroop-correct">0</span></span>
-            <span>問題数：<span id="stroop-total">0</span></span>
           </div>
           <div id="stroop-word">スタートを押してね</div>
           <div class="button-row">
@@ -540,7 +542,7 @@
       <!-- 数字タップ 1〜25 -->
       <section id="screen-tap25" class="screen">
         <h2>🔢 数字タップ 1〜25</h2>
-        <p class="muted">
+        <p class="explain">
           「スタート」で1〜25の数字がバラバラに並びます。<br />
           1→2→3…と順番にタップしていき、25まで押し切るタイムを競います。<br />
           25までクリアしたあとに<strong>「終了・ランキング登録」</strong>を押すと、そのタイムで登録します。<br />
@@ -571,8 +573,9 @@
       <!-- フラッシュ合計（連続正解数で競う） -->
       <section id="screen-flash" class="screen">
         <h2>➕ フラッシュ合計ゲーム</h2>
-        <p class="muted">
-          1ケタの数字が次々に表示されます。すべての数字の<strong>合計</strong>を覚えておき、最後に答えましょう。<br />
+        <p class="explain">
+          1ケタの数字が次々に表示されます（同じ数字が<span class="emphasis">続けて出ない</span>ようになっています）。<br />
+          すべての数字の<strong>合計</strong>を覚えておき、最後に答えましょう。<br />
           1問ごとに「正解 / 不正解」を表示し、<strong>プレイヤーが自分で「次の問題」ボタンで進みます</strong>。<br />
           <strong>連続で正解した回数（最高連続正解数）</strong>がスコアになります。<br />
           満足したところで<strong>「終了・ランキング登録」</strong>を押してください。やり直しは<strong>「リセット」</strong>で。
@@ -602,45 +605,6 @@
         <p id="no-ranking-flash" class="muted">まだ記録がありません。</p>
         <ol id="ranking-flash" class="ranking-list"></ol>
       </section>
-
-      <!-- 矢印記憶 -->
-      <section id="screen-arrows" class="screen">
-        <h2>🔼 矢印記憶ゲーム</h2>
-        <p class="muted">
-          矢印（↑→↓←）が順番に表示されます。<br />
-          よく覚えて、同じ順番でボタンを押してください。<br />
-          まちがえたときのレベルがスコアです。満足したら<strong>「終了・ランキング登録」</strong>で登録できます。<br />
-          やり直したいときは<strong>「リセット」</strong>を押してください。
-        </p>
-
-        <div class="game-card">
-          <div class="status-row">
-            <span>現在レベル：<span id="arrows-level">1</span></span>
-            <span>最高レベル：<span id="arrows-best">0</span></span>
-          </div>
-          <div style="font-size:2.1rem; text-align:center; margin:10px 0;">
-            <span id="arrows-seq">スタートを押してね</span>
-          </div>
-          <div class="button-row">
-            <button class="arrow-btn" data-arrow="↑">↑</button>
-            <button class="arrow-btn" data-arrow="→">→</button>
-            <button class="arrow-btn" data-arrow="↓">↓</button>
-            <button class="arrow-btn" data-arrow="←">←</button>
-          </div>
-          <div class="button-row" style="margin-top:10px;">
-            <button id="arrows-start-btn">スタート</button>
-            <button id="arrows-end-btn" class="btn-secondary btn-small">終了・ランキング登録</button>
-            <button id="arrows-reset-btn" class="btn-secondary btn-small">リセット</button>
-          </div>
-          <p id="arrows-message" class="muted"></p>
-        </div>
-
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
-
-        <h3>🔼 矢印記憶 ランキング（レベルが高いほどスゴイ）</h3>
-        <p id="no-ranking-arrows" class="muted">まだ記録がありません。</p>
-        <ol id="ranking-arrows" class="ranking-list"></ol>
-      </section>
     </main>
   </div>
 
@@ -659,6 +623,7 @@
         if (window.calcForceStop) window.calcForceStop();
         if (window.flashForceStop) window.flashForceStop();
         if (window.tap25ForceStop) window.tap25ForceStop();
+        if (window.stroopForceStop) window.stroopForceStop();
         showScreen(id);
       });
     });
@@ -727,7 +692,6 @@
         if (gameId === "stroop") unit = " 問";
         if (gameId === "tap25") unit = " 秒";
         if (gameId === "flash") unit = " 回";
-        if (gameId === "arrows") unit = " レベル";
 
         li.textContent = `${medal}${index + 1}位: ${entry.name} - ${entry.score}${unit}`;
         list.appendChild(li);
@@ -751,7 +715,7 @@
         if (score >= 20) comment = "天才級の計算力！";
         else if (score >= 10) comment = "いいペース！その調子！";
         else comment = "ウォーミングアップはここから！";
-      } else if (gameId === "memory" || gameId === "arrows") {
+      } else if (gameId === "memory") {
         if (score >= 10) comment = "すごい記憶力！";
         else if (score >= 5) comment = "集中できてる！";
         else comment = "続ければもっと伸びるよ！";
@@ -1146,7 +1110,7 @@
       });
     })();
 
-    // ===== ストループ色ことば =====
+    // ===== ストループ色ことば（30秒タイムアタック） =====
     (function setupStroop() {
       const colors = ["赤", "青", "緑", "黄"];
       const colorValues = {
@@ -1158,7 +1122,7 @@
 
       const wordEl = document.getElementById("stroop-word");
       const correctEl = document.getElementById("stroop-correct");
-      const totalEl = document.getElementById("stroop-total");
+      const timeEl = document.getElementById("stroop-time");
       const msg = document.getElementById("stroop-message");
       const startBtn = document.getElementById("stroop-start-btn");
       const endBtn = document.getElementById("stroop-end-btn");
@@ -1167,13 +1131,14 @@
 
       let playing = false;
       let correct = 0;
-      let total = 0;
+      let remaining = 30;
+      let timerId = null;
       let currentColor = null;
       let lastScore = null;
 
       function updateDisplay() {
         correctEl.textContent = correct;
-        totalEl.textContent = total;
+        timeEl.textContent = remaining;
       }
 
       function newQuestion() {
@@ -1182,14 +1147,14 @@
         currentColor = inkColor;
         wordEl.textContent = textColor;
         wordEl.style.color = colorValues[inkColor];
-        total++;
-        updateDisplay();
       }
 
       function resetAll() {
         playing = false;
+        if (timerId) clearInterval(timerId);
+        timerId = null;
         correct = 0;
-        total = 0;
+        remaining = 30;
         lastScore = null;
         updateDisplay();
         wordEl.textContent = "スタートを押してね";
@@ -1197,14 +1162,35 @@
         msg.textContent = "";
       }
 
+      function finishRun(reason) {
+        playing = false;
+        if (timerId) clearInterval(timerId);
+        timerId = null;
+        lastScore = correct;
+        if (reason === "time") {
+          msg.textContent = `時間切れ！正解数は ${correct} 問でした。`;
+        } else if (reason === "manual") {
+          msg.textContent = `手動で終了しました。正解数は ${correct} 問でした。`;
+        }
+      }
+
       startBtn.addEventListener("click", () => {
         playing = true;
         correct = 0;
-        total = 0;
+        remaining = 30;
         lastScore = null;
         updateDisplay();
         msg.textContent = "インクの色を答えてね。";
         newQuestion();
+
+        if (timerId) clearInterval(timerId);
+        timerId = setInterval(() => {
+          remaining--;
+          updateDisplay();
+          if (remaining <= 0) {
+            finishRun("time");
+          }
+        }, 1000);
       });
 
       optionButtons.forEach((btn) => {
@@ -1222,17 +1208,19 @@
           }
           lastScore = correct;
           newQuestion();
+          updateDisplay();
         });
       });
 
       endBtn.addEventListener("click", () => {
-        playing = false;
+        if (playing) {
+          finishRun("manual");
+        }
         if (lastScore == null) {
           alert("まだ登録できる結果がありません。まずはプレイしてみよう！");
           resetAll();
           return;
         }
-        msg.textContent = `終了しました。正解数は ${lastScore} 問でした。`;
         askNameAndSave("stroop", lastScore, true);
         resetAll();
       });
@@ -1240,6 +1228,21 @@
       resetBtn.addEventListener("click", () => {
         resetAll();
       });
+
+      window.stroopForceStop = function () {
+        if (timerId) clearInterval(timerId);
+        timerId = null;
+        playing = false;
+        remaining = 30;
+        correct = 0;
+        lastScore = null;
+        updateDisplay();
+        wordEl.textContent = "スタートを押してね";
+        wordEl.style.color = "#f9fafb";
+        msg.textContent = "";
+      };
+
+      updateDisplay();
     })();
 
     // ===== 数字タップ 1〜25 =====
@@ -1376,10 +1379,18 @@
       let streak = 0;
       let best = 0;
       let lastBestForRanking = null;
+      let lastShown = null; // 直前の数字
 
       function updateDisplay() {
         streakEl.textContent = streak;
         bestEl.textContent = best;
+      }
+
+      function showDigit(n) {
+        numberEl.textContent = n;
+        numberEl.classList.remove("flash-highlight");
+        void numberEl.offsetWidth; // reflow
+        numberEl.classList.add("flash-highlight");
       }
 
       function showSequence() {
@@ -1403,10 +1414,14 @@
             msg.textContent = "合計を入力して「回答」を押してください。";
             return;
           }
-          const n = Math.floor(Math.random() * 9) + 1;
+          let n;
+          do {
+            n = Math.floor(Math.random() * 9) + 1;
+          } while (n === lastShown); // 同じ数字を連続させない
+          lastShown = n;
           sum += n;
           count++;
-          numberEl.textContent = n;
+          showDigit(n);
         }, 700);
       }
 
@@ -1420,7 +1435,9 @@
         streak = 0;
         best = 0;
         lastBestForRanking = null;
+        lastShown = null;
         numberEl.textContent = "スタートを押してね";
+        numberEl.classList.remove("flash-highlight");
         msg.textContent = "";
         answerInput.value = "";
         answerInput.disabled = true;
@@ -1456,6 +1473,7 @@
           streak = 0;
           best = 0;
           lastBestForRanking = null;
+          lastShown = null;
           updateDisplay();
         }
         if (showing) return;
@@ -1492,148 +1510,14 @@
         playing = false;
         showing = false;
         numberEl.textContent = "スタートを押してね";
+        numberEl.classList.remove("flash-highlight");
         msg.textContent = "";
         streak = 0;
         best = 0;
         lastBestForRanking = null;
+        lastShown = null;
         updateDisplay();
       };
-
-      updateDisplay();
-    })();
-
-    // ===== 矢印記憶 =====
-    (function setupArrows() {
-      const arrows = ["↑", "→", "↓", "←"];
-      const levelEl = document.getElementById("arrows-level");
-      const bestEl = document.getElementById("arrows-best");
-      const seqEl = document.getElementById("arrows-seq");
-      const msg = document.getElementById("arrows-message");
-      const startBtn = document.getElementById("arrows-start-btn");
-      const endBtn = document.getElementById("arrows-end-btn");
-      const resetBtn = document.getElementById("arrows-reset-btn");
-      const arrowBtns = document.querySelectorAll("[data-arrow]");
-
-      let level = 1;
-      let best = 0;
-      let sequence = [];
-      let userIndex = 0;
-      let showing = false;
-      let playing = false;
-      let timers = [];
-      let lastScore = null;
-
-      function updateDisplay() {
-        levelEl.textContent = level;
-        bestEl.textContent = best;
-      }
-
-      function clearTimers() {
-        timers.forEach((t) => clearTimeout(t));
-        timers = [];
-      }
-
-      function showSequence() {
-        showing = true;
-        seqEl.textContent = "";
-        msg.textContent = "矢印をよく覚えてね…";
-        clearTimers();
-        sequence.forEach((arrow, i) => {
-          const t = setTimeout(() => {
-            seqEl.textContent = arrow;
-          }, i * 700);
-          timers.push(t);
-        });
-        const endT = setTimeout(() => {
-          showing = false;
-          seqEl.textContent = "？";
-          msg.textContent = "同じ順番で矢印ボタンを押してね。";
-        }, sequence.length * 700 + 500);
-        timers.push(endT);
-      }
-
-      function nextRound() {
-        sequence.push(arrows[Math.floor(Math.random() * arrows.length)]);
-        userIndex = 0;
-        showSequence();
-      }
-
-      function gameOver() {
-        playing = false;
-        clearTimers();
-        lastScore = level - 1;
-        if (lastScore > best) best = lastScore;
-        updateDisplay();
-        msg.textContent = `まちがいです。到達レベルは ${lastScore} でした。満足したら「終了・ランキング登録」で登録できます。`;
-      }
-
-      function resetAll() {
-        clearTimers();
-        level = 1;
-        sequence = [];
-        userIndex = 0;
-        showing = false;
-        playing = false;
-        lastScore = null;
-        seqEl.textContent = "スタートを押してね";
-        msg.textContent = "";
-        updateDisplay();
-      }
-
-      startBtn.addEventListener("click", () => {
-        clearTimers();
-        level = 1;
-        sequence = [];
-        userIndex = 0;
-        showing = false;
-        playing = true;
-        lastScore = null;
-        msg.textContent = "さあ、スタート！";
-        updateDisplay();
-        nextRound();
-      });
-
-      arrowBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          if (!playing || showing) return;
-          const arrow = btn.getAttribute("data-arrow");
-          const expected = sequence[userIndex];
-          if (arrow === expected) {
-            userIndex++;
-            if (userIndex >= sequence.length) {
-              level++;
-              if (level - 1 > best) best = level - 1;
-              updateDisplay();
-              msg.textContent = "正解！次のレベルへ。";
-              setTimeout(nextRound, 800);
-            }
-          } else {
-            gameOver();
-          }
-        });
-      });
-
-      endBtn.addEventListener("click", () => {
-        if (playing) {
-          playing = false;
-          clearTimers();
-          lastScore = level - 1;
-          if (lastScore > best) best = lastScore;
-          updateDisplay();
-          msg.textContent = `手動で終了しました。到達レベルは ${lastScore} でした。`;
-        }
-        if (lastScore == null || lastScore <= 0) {
-          alert("まだ登録できるレベルがありません。まずはプレイしてみよう！");
-          resetAll();
-          return;
-        }
-        askNameAndSave("arrows", lastScore, true);
-        resetAll();
-      });
-
-      resetBtn.addEventListener("click", () => {
-        resetAll();
-      });
 
       updateDisplay();
     })();
@@ -1642,7 +1526,7 @@
     loadRankings();
     const allGames = [
       "reaction", "calc", "memory", "stroop",
-      "tap25", "flash", "arrows"
+      "tap25", "flash"
     ];
     allGames.forEach(renderRanking);
   </script>
