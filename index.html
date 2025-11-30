@@ -21,45 +21,42 @@
       width: 100%;
       padding: 16px;
     }
-    header {
-      text-align: center;
-      margin-bottom: 12px;
-    }
-    header h1 {
-      margin: 0 0 4px;
-      font-size: 2.3rem;
-      color: #111827;
-    }
-    header p {
-      margin: 0;
-      font-size: 1rem;
-      color: #374151;
+
+    main {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      border: 1px solid #e5e7eb;
     }
 
-    /* 上部ナビ：横スクロール可能な1列タブ風 */
-    .top-nav {
+    .screen {
+      display: none;
+    }
+    .screen.active {
       display: block;
-      white-space: nowrap;
-      overflow-x: auto;
-      padding: 4px 0 8px;
-      margin-bottom: 12px;
-      border-radius: 999px;
-      background: #e5e7eb;
     }
-    .top-nav::-webkit-scrollbar {
-      height: 6px;
+    h1.home-title {
+      margin: 0;
+      font-size: 2.3rem;
+      color: #111827;
+      text-align: center;
     }
-    .top-nav::-webkit-scrollbar-thumb {
-      background: #d1d5db;
-      border-radius: 999px;
+    p.home-subtitle {
+      margin: 4px 0 12px;
+      font-size: 1rem;
+      color: #374151;
+      text-align: center;
     }
-    .top-nav button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin: 4px 6px;
-      padding: 10px 16px;
-      font-size: 0.95rem;
+    h2 {
+      margin-top: 0;
+      font-size: 1.7rem;
+      color: #111827;
+    }
+    h3 {
+      margin-top: 1.2rem;
+      font-size: 1.2rem;
+      color: #111827;
     }
 
     button {
@@ -106,29 +103,6 @@
       padding: 14px 18px;
     }
 
-    main {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      border: 1px solid #e5e7eb;
-    }
-    .screen {
-      display: none;
-    }
-    .screen.active {
-      display: block;
-    }
-    h2 {
-      margin-top: 0;
-      font-size: 1.7rem;
-      color: #111827;
-    }
-    h3 {
-      margin-top: 1.2rem;
-      font-size: 1.2rem;
-      color: #111827;
-    }
     .game-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -168,11 +142,15 @@
       margin-bottom: 12px;
     }
     .home-btn {
-      margin-top: 10px;
       background: #0ea5e9; /* ホームは青系で統一 */
     }
     .home-btn:hover:not(:disabled) {
       background: #0284c7;
+    }
+    .home-btn-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
     }
     .ranking-list {
       padding-left: 20px;
@@ -336,7 +314,6 @@
 
     @media (max-width: 640px) {
       main { padding: 12px; }
-      header h1 { font-size: 2rem; }
       :root { font-size: 20px; }
       .tap25-cell { height: 64px; font-size: 1.1rem; }
       .memory-tile { height: 90px; }
@@ -347,24 +324,12 @@
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1>脳トレゲーム集 🧠🎮</h1>
-      <p>反射・計算・記憶・判断をまとめてトレーニング！</p>
-    </header>
-
-    <nav class="top-nav">
-      <button data-target="screen-home">🏠 ホーム</button>
-      <button data-target="screen-reaction">⚡ 反射</button>
-      <button data-target="screen-calc">➗ 計算</button>
-      <button data-target="screen-memory">🧩 記憶</button>
-      <button data-target="screen-stroop">🎨 色ことば</button>
-      <button data-target="screen-tap25">🔢 1〜25</button>
-      <button data-target="screen-flash">➕ フラッシュ</button>
-    </nav>
-
     <main>
       <!-- ホーム画面 -->
       <section id="screen-home" class="screen active">
+        <h1 class="home-title">脳トレゲーム集 🧠🎮</h1>
+        <p class="home-subtitle">反射・計算・記憶・判断をまとめてトレーニング！</p>
+
         <h2>ゲームをえらんでスタート！</h2>
         <p class="explain">
           それぞれのゲームの結果はブラウザ内に保存されます。<br />
@@ -468,7 +433,9 @@
           <p id="reaction-result"></p>
         </div>
 
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        <div class="home-btn-wrapper">
+          <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        </div>
 
         <h3>⚡ 反射神経ランキング（小さいほどスゴイ）</h3>
         <p id="no-ranking-reaction" class="muted">まだ記録がありません。</p>
@@ -505,7 +472,9 @@
           <p id="calc-message" class="muted"></p>
         </div>
 
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        <div class="home-btn-wrapper">
+          <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        </div>
 
         <h3>➗ 計算ランキング（多いほどスゴイ）</h3>
         <p id="no-ranking-calc" class="muted">まだ記録がありません。</p>
@@ -539,7 +508,9 @@
           <p id="memory-message" class="muted">まずは「スタート」を押してね。</p>
         </div>
 
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        <div class="home-btn-wrapper">
+          <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        </div>
 
         <h3>🧩 記憶力ランキング（レベルが高いほどスゴイ）</h3>
         <p id="no-ranking-memory" class="muted">まだ記録がありません。</p>
@@ -577,7 +548,9 @@
           <p id="stroop-message" class="muted"></p>
         </div>
 
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        <div class="home-btn-wrapper">
+          <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        </div>
 
         <h3>🎨 色ことばランキング（多いほどスゴイ）</h3>
         <p id="no-ranking-stroop" class="muted">まだ記録がありません。</p>
@@ -608,7 +581,9 @@
           <p id="tap25-message" class="muted"></p>
         </div>
 
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        <div class="home-btn-wrapper">
+          <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        </div>
 
         <h3>🔢 1〜25 ランキング（小さいほどスゴイ）</h3>
         <p id="no-ranking-tap25" class="muted">まだ記録がありません。</p>
@@ -644,7 +619,9 @@
           <p id="flash-message" class="muted"></p>
         </div>
 
-        <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        <div class="home-btn-wrapper">
+          <button class="home-btn" data-target="screen-home">🏠 ホームへ戻る</button>
+        </div>
 
         <h3>➕ フラッシュ合計 ランキング（連続正解が多いほどスゴイ）</h3>
         <p id="no-ranking-flash" class="muted">まだ記録がありません。</p>
