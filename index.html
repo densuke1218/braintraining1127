@@ -11,7 +11,7 @@
     }
     body {
       margin: 0;
-      background: #f3f4f6; /* 明るいグレー */
+      background: #f9fafb; /* より明るく柔らかいグレー */
       color: #111827;      /* ほぼ黒 */
       display: flex;
       justify-content: center;
@@ -26,7 +26,7 @@
       background: #ffffff;
       border-radius: 16px;
       padding: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px rgba(15,23,42,0.06);
       border: 1px solid #e5e7eb;
     }
 
@@ -43,13 +43,13 @@
       text-align: center;
     }
     p.home-subtitle {
-      margin: 4px 0 12px;
+      margin: 4px 0 28px; /* 下にゆったりめの余白 */
       font-size: 1rem;
       color: #374151;
       text-align: center;
     }
     h2 {
-      margin-top: 0;
+      margin-top: 6px; /* タイトルとの間に適度な余白 */
       font-size: 1.7rem;
       color: #111827;
     }
@@ -65,19 +65,19 @@
       padding: 12px 22px;
       cursor: pointer;
       font-size: 1.05rem;
-      background: #0f766e; /* 落ち着いたティール */
+      background: #60a5fa; /* 少しやわらかい青 */
       color: #f9fafb;
       transition: transform 0.07s ease, box-shadow 0.07s ease, background 0.15s;
-      box-shadow: 0 2px 4px rgba(15,23,42,0.2);
+      box-shadow: 0 2px 4px rgba(15,23,42,0.12);
     }
     button:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(15,23,42,0.3);
-      background: #115e59;
+      box-shadow: 0 4px 8px rgba(15,23,42,0.18);
+      background: #3b82f6;
     }
     button:active:not(:disabled) {
       transform: translateY(0);
-      box-shadow: 0 1px 2px rgba(15,23,42,0.4);
+      box-shadow: 0 1px 2px rgba(15,23,42,0.2);
     }
     button:disabled {
       opacity: 0.6;
@@ -85,12 +85,12 @@
       box-shadow: none;
     }
     .btn-secondary {
-      background: #9ca3af;
-      color: #111827;
+      background: #e5e7eb;
+      color: #374151;
     }
     .btn-secondary:hover:not(:disabled) {
-      background: #6b7280;
-      color: #f9fafb;
+      background: #d1d5db;
+      color: #111827;
     }
     .btn-small {
       font-size: 0.9rem;
@@ -114,7 +114,7 @@
       border-radius: 14px;
       padding: 14px;
       border: 1px solid #e5e7eb;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      box-shadow: 0 3px 8px rgba(15,23,42,0.04);
     }
     .game-card h3 {
       margin-top: 0;
@@ -124,7 +124,7 @@
       font-size: 0.9rem;
       padding: 4px 11px;
       border-radius: 999px;
-      background: #dbeafe;
+      background: #e0f2fe;  /* やわらかい水色 */
       color: #1d4ed8;
       margin-bottom: 4px;
     }
@@ -142,10 +142,12 @@
       margin-bottom: 12px;
     }
     .home-btn {
-      background: #0ea5e9; /* ホームは青系で統一 */
+      background: #93c5fd; /* ホームは柔らかい青 */
+      color: #111827;
     }
     .home-btn:hover:not(:disabled) {
-      background: #0284c7;
+      background: #60a5fa;
+      color: #f9fafb;
     }
     .home-btn-wrapper {
       display: flex;
@@ -174,7 +176,7 @@
       padding: 12px;
       border-radius: 999px;
       border: 1px solid #d1d5db;
-      background: #f9fafb;
+      background: #f3f4f6;
       color: #111827;
       font-size: 1rem;
       box-sizing: border-box;
@@ -200,14 +202,14 @@
       text-align: center;
       padding: 20px;
       border-radius: 12px;
-      background: #e5f3ff; /* 淡い水色 */
+      background: #e0f2fe; /* 淡い水色 */
       transition: background 0.2s;
       font-size: 1.05rem;
       border: 1px solid #bfdbfe;
     }
     #reaction-box.go {
       background: #dcfce7; /* 緑になったとき */
-      border-color: #86efac;
+      border-color: #a7f3d0;
     }
     #reaction-message {
       margin-bottom: 12px;
@@ -233,18 +235,18 @@
       border-radius: 12px;
       border: none;
       cursor: pointer;
-      opacity: 0.85;
+      opacity: 0.9;
       transition: transform 0.08s, opacity 0.08s, box-shadow 0.08s;
     }
     .memory-tile.active {
       transform: scale(1.05);
       opacity: 1;
-      box-shadow: 0 0 12px rgba(55,65,81,0.7);
+      box-shadow: 0 0 12px rgba(55,65,81,0.5);
     }
-    .memory-tile[data-index="0"] { background: #fecaca; } /* やや淡い色に */
-    .memory-tile[data-index="1"] { background: #bbf7d0; }
-    .memory-tile[data-index="2"] { background: #bfdbfe; }
-    .memory-tile[data-index="3"] { background: #fef3c7; }
+    .memory-tile[data-index="0"] { background: #fee2e2; }
+    .memory-tile[data-index="1"] { background: #dcfce7; }
+    .memory-tile[data-index="2"] { background: #dbeafe; }
+    .memory-tile[data-index="3"] { background: #fef9c3; }
     #memory-level {
       font-weight: 600;
       font-size: 1.1rem;
@@ -277,7 +279,7 @@
       transition: background 0.1s, transform 0.1s, border-color 0.1s;
     }
     .tap25-cell.done {
-      background: #bbf7d0;
+      background: #dcfce7;
       border-color: #22c55e;
       transform: scale(0.95);
     }
@@ -297,7 +299,7 @@
       display: inline-block;
       padding: 8px 18px;
       border-radius: 12px;
-      background: #111827;
+      background: #4b5563; /* 真っ黒より少し柔らかいグレー */
       color: #f9fafb;
       border: 2px solid #e5e7eb;
       min-width: 3em;
@@ -331,11 +333,7 @@
         <p class="home-subtitle">反射・計算・記憶・判断をまとめてトレーニング！</p>
 
         <h2>ゲームをえらんでスタート！</h2>
-        <p class="explain">
-          それぞれのゲームの結果はブラウザ内に保存されます。<br />
-          何回かプレイして<strong>気に入った結果が出たら、各ゲーム画面の「終了・ランキング登録」ボタン</strong>で登録できます。<br />
-          ゲームの途中でやめるときは<strong>「リセット」ボタン</strong>を押してください。
-        </p>
+
         <div class="game-grid">
           <div class="game-card">
             <span class="tag">反射</span>
