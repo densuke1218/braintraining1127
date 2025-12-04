@@ -233,26 +233,48 @@
     .memory-tile {
       height: 100px;
       border-radius: 12px;
-      border: none;
+      border: 3px solid transparent; /* 枠を透明で用意 */
       cursor: pointer;
       opacity: 0.9;
-      transition: transform 0.08s, opacity 0.08s, box-shadow 0.08s, filter 0.08s;
+      transition: transform 0.08s, opacity 0.08s, box-shadow 0.08s, border-color 0.08s;
+      -webkit-tap-highlight-color: transparent; /* スマホ青ハイライト無効 */
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      display: block;
     }
-    /* クリックしたときの青いフォーカス枠を消す */
-    .memory-tile:focus {
+    .memory-tile:focus,
+    .memory-tile:focus-visible {
       outline: none;
     }
-    /* 選択中は元の色を少し明るくして強調 */
+    .memory-tile:active {
+      /* 一瞬だけ軽く押し込み感 */
+      transform: scale(0.98);
+    }
     .memory-tile.active {
-      transform: scale(1.05);
+      transform: scale(1.04);
       opacity: 1;
-      filter: brightness(1.2);
-      box-shadow: 0 0 14px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(31,41,55,0.35);
     }
     .memory-tile[data-index="0"] { background: #fee2e2; }
     .memory-tile[data-index="1"] { background: #dcfce7; }
     .memory-tile[data-index="2"] { background: #dbeafe; }
     .memory-tile[data-index="3"] { background: #fef9c3; }
+
+    .memory-tile[data-index="0"].active {
+      border-color: #f97373; /* 赤系 */
+    }
+    .memory-tile[data-index="1"].active {
+      border-color: #22c55e; /* 緑系 */
+    }
+    .memory-tile[data-index="2"].active {
+      border-color: #3b82f6; /* 青系 */
+    }
+    .memory-tile[data-index="3"].active {
+      border-color: #eab308; /* 黄系 */
+    }
+
     #memory-level {
       font-weight: 600;
       font-size: 1.1rem;
@@ -498,10 +520,10 @@
 
         <div class="game-card">
           <div id="memory-board">
-            <button class="memory-tile" data-index="0"></button>
-            <button class="memory-tile" data-index="1"></button>
-            <button class="memory-tile" data-index="2"></button>
-            <button class="memory-tile" data-index="3"></button>
+            <div class="memory-tile" data-index="0" tabindex="0"></div>
+            <div class="memory-tile" data-index="1" tabindex="0"></div>
+            <div class="memory-tile" data-index="2" tabindex="0"></div>
+            <div class="memory-tile" data-index="3" tabindex="0"></div>
           </div>
           <p>到達レベル：<span id="memory-level">0</span></p>
           <div class="button-row">
@@ -645,7 +667,6 @@
     document.querySelectorAll("[data-target]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const id = btn.getAttribute("data-target");
-        // タイマー系ゲームを静かに止める
         if (window.calcForceStop) window.calcForceStop();
         if (window.flashForceStop) window.flashForceStop();
         if (window.tap25ForceStop) window.tap25ForceStop();
@@ -980,7 +1001,6 @@
         resetAll();
       });
 
-      // 画面遷移時に強制リセット
       window.calcForceStop = function () {
         if (timerId) clearInterval(timerId);
         timerId = null;
@@ -1115,7 +1135,7 @@
       });
 
       tiles.forEach((tile) => {
-        tile.addEventListener("click", () => {
+        const handleTap = () => {
           if (!playing || busyShowing) return;
           const idx = parseInt(tile.getAttribute("data-index"), 10);
           const expected = sequence[userIndex];
@@ -1131,6 +1151,13 @@
             }
           } else {
             gameOver();
+          }
+        };
+        tile.addEventListener("click", handleTap);
+        tile.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleTap();
           }
         });
       });
@@ -1415,7 +1442,7 @@
       function showDigit(n) {
         numberEl.textContent = n;
         numberEl.classList.remove("flash-highlight");
-        void numberEl.offsetWidth; // reflow
+        void numberEl.offsetWidth;
         numberEl.classList.add("flash-highlight");
       }
 
@@ -1443,7 +1470,7 @@
           let n;
           do {
             n = Math.floor(Math.random() * 9) + 1;
-          } while (n === lastShown); // 同じ数字を連続させない
+          } while (n === lastShown);
           lastShown = n;
           sum += n;
           count++;
@@ -1548,12 +1575,8 @@
       updateDisplay();
     })();
 
-    // 初期化：ランキング読み込み＆描画
     loadRankings();
-    const allGames = [
-      "reaction", "calc", "memory", "stroop",
-      "tap25", "flash"
-    ];
+    const allGames = ["reaction", "calc", "memory", "stroop", "tap25", "flash"];
     allGames.forEach(renderRanking);
   </script>
 </body>
